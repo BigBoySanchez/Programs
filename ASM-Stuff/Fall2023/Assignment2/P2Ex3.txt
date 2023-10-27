@@ -1,0 +1,3 @@
+"addu" will ignore overflow and put the last 32 bits of the add into $t0. 
+"add" notices that the carry in (1) and the carry out (0) do not match, which means signed overflow happened.
+"add" does NOT ignore this and "traps" the program.

@@ -1,0 +1,92 @@
+Do you want to borrow to purchase a house or a vehicle? (H/V): h
+Enter amount of the loan in the range 50,000.00 to 5,000,000.00: 500000
+Enter annual interest rate (from 2% through 10%) as a percent: 4.5
+Enter term. Must be 10, 15 or 30 years: 30
+
+Monthly payment rounded is: $2533.43
+Total paid back including interest if loan runs full term: $912034.80
+Interest paid over life of the loan: $412034.80
+
+
+
+Do you want to borrow to purchase a house or a vehicle? (H/V): h
+Enter amount of the loan in the range 50,000.00 to 5,000,000.00: 500000    
+Enter annual interest rate (from 2% through 10%) as a percent: 4.5
+Enter term. Must be 10, 15 or 30 years: 15
+
+
+
+
+Monthly payment rounded is: $3824.97
+Total paid back including interest if loan runs full term: $688494.60
+Interest paid over life of the loan: $188494.60
+
+
+
+Do you want to borrow to purchase a house or a vehicle? (H/V): h
+Enter amount of the loan in the range 50,000.00 to 5,000,000.00: 850000
+Enter annual interest rate (from 2% through 10%) as a percent: 6
+Enter term. Must be 10, 15 or 30 years: 30
+
+Monthly payment rounded is: $5096.18
+Total paid back including interest if loan runs full term: $1834624.80
+Interest paid over life of the loan: $984624.80
+
+
+
+
+Do you want to borrow to purchase a house or a vehicle? (H/V): h
+Enter amount of the loan in the range 50,000.00 to 5,000,000.00: 250000
+Enter annual interest rate (from 2% through 10%) as a percent: 3.75
+Enter term. Must be 10, 15 or 30 years: 10
+
+Monthly payment rounded is: $2501.53
+Total paid back including interest if loan runs full term: $300183.60
+Interest paid over life of the loan: $50183.60
+
+
+
+Do you want to borrow to purchase a house or a vehicle? (H/V): v
+Enter amount of the loan in the range 5,000.00 to 100,000.00: 25000
+Enter annual interest rate (from 1% through 15%) as a percent: 3.75
+Enter term. Must be 3, 4, 5, or 6 years: 4
+
+Monthly payment rounded is: $561.68
+Total paid back including interest if loan runs full term: $26960.64
+Interest paid over life of the loan: $1960.64
+
+
+
+Do you want to borrow to purchase a house or a vehicle? (H/V): V
+Enter amount of the loan in the range 5,000.00 to 100,000.00: 42250
+Enter annual interest rate (from 1% through 15%) as a percent: 4.825
+Enter term. Must be 3, 4, 5, or 6 years: 6
+
+Monthly payment rounded is: $677.01
+Total paid back including interest if loan runs full term: $48744.72
+Interest paid over life of the loan: $6494.72
+
+
+
+Do you want to borrow to purchase a house or a vehicle? (H/V): V       
+Enter amount of the loan in the range 5,000.00 to 100,000.00: 35000
+Enter annual interest rate (from 1% through 15%) as a percent: 2.5
+Enter term. Must be 3, 4, 5, or 6 years: 3
+
+Monthly payment rounded is: $1010.15
+Total paid back including interest if loan runs full term: $36365.40
+Interest paid over life of the loan: $1365.40
+
+
+
+Do you want to borrow to purchase a house or a vehicle? (H/V): n
+
+Error: Not an 'H' or a 'V'
+
+
+
+Do you want to borrow to purchase a house or a vehicle? (H/V): h
+Enter amount of the loan in the range 50,000.00 to 5,000,000.00: 600009
+Enter annual interest rate (from 2% through 10%) as a percent: 21
+
+Error: Percent out of range or input contains a percent sign.
