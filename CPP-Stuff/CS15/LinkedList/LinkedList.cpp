@@ -244,7 +244,8 @@ int LinkedList::getItem(int index) const {
    temp = temp->next;
  }
 
- return temp->value; //what does -> actually mean?
+ return temp->value;  //what does -> actually mean?
+                      // -> dereferences the pointer and is like "."
 // Actual return value should be the value in Node at index i, 
 // which should be temp->value at this point
 
@@ -260,15 +261,25 @@ int LinkedList::getItem(int index) const {
 void LinkedList::insertLast(int v) {
 
  // If the list is empty then just create a new node with the data
+ if(length == 0) 
+ {
+  Node* toInsert = new Node(v);
 
- // and set headPtr to the new node. Also, set length to 1.
+  // and set headPtr to the new node. Also, set length to 1.
+  headPtr = toInsert;
+  length = 1;
+  return;
+ }
 
  // Otherwise loop until you get to the last node in the list.
+ Node* temp = headPtr;
+ for(; temp->next != nullptr; temp = temp->next);
 
  // Then make that node's next pointer point to a new node with the data.
+ temp->next = new Node(v);
 
  // Increment length.
-
+ length++;
 }
 
 
