@@ -5,6 +5,7 @@
 # 11/7
 # Using the shift
 # multiply method in MIPS
+# also works for signed ints
 #
 
         .text
