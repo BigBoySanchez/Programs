@@ -32,7 +32,7 @@ while:  andi    $t4, $t0, 1     # t4 has 0 on even, 1 on odd
         addu    $t2, $t2, $t1   # otherwise, add num2 * 2^n to result
 shift:  srl     $t0, $t0, 1     # num1 /= 2
         sll     $t1, $t1, 1     # num2 *= 2
-        bgtz    $t0, while      # goes while num1 != 0, since num1 is unsigned
+        bnez    $t0, while      # goes while num1 != 0
         nop
         li      $v0, 4          # print out the shift result text
         la      $a0, done1
