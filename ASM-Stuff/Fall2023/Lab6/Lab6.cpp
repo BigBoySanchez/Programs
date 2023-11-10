@@ -1,7 +1,7 @@
 //
 // Lab6.cpp
 //
-// Jacob Ativo
+// Jacob Ativo, Ganeev Sidhu
 // 11/7
 // Using the shifting 
 // multiply method in C++
