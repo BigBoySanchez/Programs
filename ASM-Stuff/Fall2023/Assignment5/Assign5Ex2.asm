@@ -29,26 +29,32 @@ main:	la	$a0, pr1			# prints prompt for n
 
 	li	$v0, 5				# reads user's choice for n
 	syscall
-	bltz	$v0, badIn
+	bgez	$v0, pass
+	nop
 
-badIn:	la	$a0, bad			# prints error text
+	la	$a0, bad			# prints error text
 	li	$v0, 4
 	syscall
 	j	main				# and tries again
 	nop
 
-	mtc1	$v0, $f0			# moves valid input to $f0
-	li.s	$f1, 1				# loads 1 into $f1
-	li.s	$f2, 1				# loads 1 into the denominator
-	li.s	$f12, 0				# clears register holding answer
+pass:	mtc1	$v0, $f0			# moving valid input to $f0
+	cvt.s.w	$f0, $f0			# and converts it into float
+	li.s	$f1, 1.0			# loads 1 into $f1
+	li.s	$f2, 1.0			# loads 1 into the denominator
+	li.s	$f12, 0.0			# clears register holding answer
 
-sum:	div.s	$f3, $f1, $f2			# term = 1 / denominator
+sum:	c.lt.s	$f0, $f2			# exits if denominator > n
+	bc1t	done
+	nop
+	
+	div.s	$f3, $f1, $f2			# term = 1 / denominator
 	add.s	$f2, $f2, $f1			# denominator += 1.0
 	add.s	$f12, $f12, $f3			# answer += term
-	bleu	$f2, $f0, sum			# loops if denominator <= n
+	b	sum				# loop again
 	nop
 
-	la	$a0, ans			# printing answer text
+done:	la	$a0, ans			# printing answer text
 	li	$v0, 4
 	syscall
 
