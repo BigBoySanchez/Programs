@@ -40,18 +40,18 @@ main:	la	$a0, pr1			# prints prompt for n
 
 pass:	mtc1	$v0, $f0			# moving valid input to $f0
 	cvt.s.w	$f0, $f0			# and converts it into float
-	li.s	$f1, 1.0			# loads 1 into $f1
-	li.s	$f2, 1.0			# loads 1 into the denominator
+	li.s	$f1, 1.0			# loads 1.0 into $f1
+	li.s	$f2, 1.0			# loads 1.0 into the denominator
 	li.s	$f12, 0.0			# clears register holding answer
 
 sum:	c.lt.s	$f0, $f2			# exits if denominator > n
 	bc1t	done
 	nop
 	
-	div.s	$f3, $f1, $f2			# term = 1 / denominator
+	div.s	$f3, $f1, $f2			# term = 1.0 / denominator
 	add.s	$f2, $f2, $f1			# denominator += 1.0
 	add.s	$f12, $f12, $f3			# answer += term
-	b	sum				# loop again
+	j	sum				# loop again
 	nop
 
 done:	la	$a0, ans			# printing answer text
