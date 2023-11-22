@@ -14,33 +14,22 @@
 # Register Use:
 # $t0 --- string ptr
 # $t1 --- char from str
-# $t2 --- '\n'
 # 
 
 	.data
-pr1:	.asciiz	"\nEnter all uppercase string: "	# Asks user for string
-echo:	.asciiz	"You typed: "				# goes before echo
-lower:	.asciiz "Your new string is: "			# goes before lowercase string
+string:	.asciiz "ABCDEFG"
+pre:	.asciiz	"Original string: "
+post:	.asciiz	"Modified string: "
 lf:	.asciiz	"\n"					# line feed
-str:	.space	128					# holds string before and after modification
 
 	.text
 	.globl	main
 
-main:	la	$a0, pr1				# print prompt
+main:	la	$a0, pre				# print preamble to original string
 	li	$v0, 4
 	syscall
 
-	la	$a0, str				# read string
-	li	$a1, 127				# TODO: figure out what this does
-	li	$v0, 8
-	syscall
-
-	la	$a0, echo				# print echo text
-	li	$v0, 4
-	syscall
-
-	la	$a0, str				# echo user's string
+	la	$a0, string				# print original string
 	li	$v0, 4
 	syscall
 
@@ -48,11 +37,10 @@ main:	la	$a0, pr1				# print prompt
 	li	$v0, 4
 	syscall
 
-	la	$t0, str				# make pointer for string
-	li	$t2, '\n'				# holds newline for comparison later
+	la	$t0, string				# make pointer for string
 loop:	lb	$t1, ($t0)				# load char at $t0 into $t1
 	nop						# wait for it to pull up
-	beq	$t1, $t2, done				# break when $t0 points to '\n'
+	beqz	$t1, done				# break when $t0 points to '\0'
 	nop
 	addiu	$t1, $t1, 32				# b/c lowercase letters are 32 away from uppercase
 	sb	$t1, ($t0)				# change char into new value
@@ -60,12 +48,11 @@ loop:	lb	$t1, ($t0)				# load char at $t0 into $t1
 	j	loop					# go again
 	nop
 
-done:	sb	$zero, ($t0)				# changes the newline in str to a NUL
-	la	$a0, lower				# print lowercase text
+done:	la	$a0, post				# print preamble to modified string
 	li	$v0, 4
 	syscall
 
-	la	$a0, str				# print new string
+	la	$a0, string				# print new string
 	li	$v0, 4
 	syscall
 

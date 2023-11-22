@@ -1,8 +1,8 @@
 #
-# Assign6Ex2.asm
+# Assign6Ex3.asm
 #
 # Jacob Ativo
-# 11/21
+# 11/22
 # Takes string with spaces and letters
 # and capitalizes the first letter in each word
 # 
@@ -14,12 +14,13 @@
 # $t0 --- string pointer
 # $t1 --- holds char in string
 # $t2 --- previous char is space
+# $t3 --- holds 'A' or 'Z' for comparisons
 #
 
 	.data
 pre:	.asciiz	"Original string: "
 post:	.asciiz "\nModified string: "
-string: .asciiz "in a  hole in the    ground there lived a hobbit"
+string: .asciiz "george Bush   Doesn t care about  Black   people"
 
 	.text
 	.globl	main
@@ -42,7 +43,12 @@ loop:	lb	$t1, ($t0)						# hold the current char, say c
 	blez	$t1, notL						# branch if c not a letter
 	nop
 	beqz	$t2, next						# ignore letter if $t2 is not set
-	li	$t2, 0							# since this char is a letter and flag isn't used until next loop
+        li	$t2, 0							# since this char is a letter and flag isn't used until next loop
+        li      $t3, 'A'                                                # load 'A'
+        blt     $t1, $t3, next                                          # ignore numbers smaller than 'A'
+        li      $t3, 'Z'                                                # load 'Z'
+        bgt     $t1, $t3, next                                          # ignore numbers bigger than 'Z'
+        nop
 	sb	$t1, ($t0)						# store modified letter
 
 next:	addiu	$t0, $t0, 1						# increment pointer
