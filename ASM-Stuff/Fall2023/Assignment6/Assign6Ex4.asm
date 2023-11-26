@@ -11,12 +11,14 @@
 # 	    Delayed Loads ON, Mapped IO OFF
 #
 # Register Use:
-# WIP
+# $t0 --- '\n'
+# $t1 --- string pointer
+# $t2 --- holds chars from string
 #
 
 	.data
 prompt:	.asciiz	"\nEnter a string (letters & spaces only): "	# asks user for string
-buf:	.space	9						# space to hold the string
+buf:	.space	999						# space to hold the string
 
 	.text
 	.globl	main
@@ -26,7 +28,7 @@ main:	la	$a0, prompt					# print prompt
 	syscall
 
 	la	$a0, buf					# load buffer address
-	li	$a1, 8						# set length of buffer
+	li	$a1, 998						# set length of buffer
 	li	$v0, 8						# get string
 	syscall
 
@@ -45,4 +47,11 @@ next:	addiu	$t1, $t1, 1					# move pointer to next char
 	j	tog						# do same thing to next char
 	nop							# wait for jump
 
-done:	lb	$t1, '\0'					# changes newline in string to NUL
+done:	lb	$zero, ($t1)					# changes newline in string to NUL
+
+	la	$a0, buf					# print modified string
+	li	$v0, 4
+	syscall
+
+	li	$v0, 10						# exit
+	syscall
