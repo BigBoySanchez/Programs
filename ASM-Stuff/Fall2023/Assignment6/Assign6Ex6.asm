@@ -34,7 +34,7 @@ main:	la	$a0, prompt						# print prompt
 read:	li	$v0, 5							# read integer into $v0
 	syscall
 
-	move	$t2, $v0						# temporarily store user's int in $t2
+	move	$t2, $v0						# temporarily store user's int in $t2 (can't store v register)
 	sw	$t2, ($t0)						# store user's int into address at pointer
 	addiu	$t0, $t0, 4						# increment pointer to next int
 	ble	$t0, $t1, read						# read in another int if pointer is in arr
@@ -51,7 +51,7 @@ outN:	lw	$a0, ($t0)						# print int at pointer
 	syscall
 
 	addiu	$t0, $t0, 4						# increment pointer to next int
-	bgt	$t0, $t1, done						# break if last int of arr has been printed
+	bgt	$t0, $t1, done1						# break if last int of arr has been printed
 	la	$a0, tab						# print tab otherwise
 	li	$v0, 4
 	syscall
@@ -59,7 +59,42 @@ outN:	lw	$a0, ($t0)						# print int at pointer
 	j	outN							# print next int in arr
 	nop
 
-done:
+done1:	la	$t0, arr						# move pointer back to the beginning
+
+
+revrs:	lw	$t2, ($t0)
+	lw	$t3, ($t1)
+	sw	$t2, ($t1)
+	sw	$t3, ($t0)
+
+	addiu	$t1, $t1, -4
+	addiu	$t0, $t0, 4
+	blt	$t0, $t1, revrs
+	nop
+
+	la	$t0, arr
+	addiu	$t1, $t0, 36
+	la	$a0, lf							# print newline
+	li	$v0, 4
+	syscall
+	
+	# prints user's reversed ints
+outR:	lw	$a0, ($t0)						# print int at pointer
+	li	$v0, 1
+	syscall
+
+	addiu	$t0, $t0, 4						# increment pointer to next int
+	bgt	$t0, $t1, done2						# break if last int of arr has been printed
+	la	$a0, tab						# print tab otherwise
+	li	$v0, 4
+	syscall
+
+	j	outR							# print next int in arr
+	nop
+
+done2:	la	$a0, lf							# print newline
+	li	$v0, 4
+	syscall
 
 	li	$v0, 10							# exit
 	syscall
