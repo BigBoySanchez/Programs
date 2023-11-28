@@ -11,7 +11,10 @@
 # 	    Delayed Loads ON, Mapped IO OFF
 #
 # Register Use:
-# WIP
+# $t0 --- pointer into arr
+# $t1 --- pointer to last element of arr
+# $t2 --- temporary storage for ints during print/swap
+# $t3 --- temporary storage for ints during swap
 #
 
 	.data
@@ -62,18 +65,18 @@ outN:	lw	$a0, ($t0)						# print int at pointer
 done1:	la	$t0, arr						# move pointer back to the beginning
 
 
-revrs:	lw	$t2, ($t0)
-	lw	$t3, ($t1)
-	sw	$t2, ($t1)
-	sw	$t3, ($t0)
+revrs:	lw	$t2, ($t0)						# load value at top pointer into $t2 temporarily
+	lw	$t3, ($t1)						# load value at bottom pointer into $t3 temporarily
+	sw	$t2, ($t1)						# value from top pointer moves to bottom of arr
+	sw	$t3, ($t0)						# value from bottom pointer to top of arr
 
-	addiu	$t1, $t1, -4
-	addiu	$t0, $t0, 4
-	blt	$t0, $t1, revrs
+	addiu	$t1, $t1, -4						# move bottom pointer up to next int
+	addiu	$t0, $t0, 4						# move top pointer down to next int
+	blt	$t0, $t1, revrs						# go again if top pointer is in the top half of arr
 	nop
 
-	la	$t0, arr
-	addiu	$t1, $t0, 36
+	la	$t0, arr						# reset pointer into arr
+	addiu	$t1, $t0, 36						# reset $t1 to location of last element in arr
 	la	$a0, lf							# print newline
 	li	$v0, 4
 	syscall
