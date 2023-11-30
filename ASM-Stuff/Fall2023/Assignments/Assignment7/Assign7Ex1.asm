@@ -12,7 +12,8 @@
 
         .data
 prompt:	.asciiz	"Enter an integer: "	# prompts user for integer
-arr:    .word	40			# space for 10 ints
+arr:    .word	0			# space for 10 ints
+	.space	36
 
 	.text
 	.globl	main
