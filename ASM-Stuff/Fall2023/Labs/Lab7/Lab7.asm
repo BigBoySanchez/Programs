@@ -24,14 +24,17 @@ main:	la	$a0, prompt				# print prompt
 	li	$v0, 4
 	syscall
 
-	li	$v0, 5
+	li	$v0, 5					# read user's int into $v0 (assume it's valid)
 	syscall
 
-	sw	$v0, ($sp)
+	sw	$v0, ($sp)				# push user's int
 	addiu	$sp, $sp, -4
+	jal	sumInt					# store return address after sumInt
 
-	addiu	$sp, $sp, 4				# science WIP
-	lw	$t0, ($sp)
 	
 	li	$v0, 10
 	syscall
+
+sumInt:	sw	$ra, ($sp)
+	addiu	$sp, $sp, -4
+	
