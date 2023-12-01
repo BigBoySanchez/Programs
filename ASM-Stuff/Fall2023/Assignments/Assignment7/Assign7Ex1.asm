@@ -24,12 +24,14 @@ main:	la	$a0, prompt		# $a0 = address of prompt
 
 subL:	jal	read			# go into read subroutine
 	nop
+	sw	$v0, ($a1)
 	addiu	$a1, $a1, 4
 	ble	$a1, $t0, subL
 	nop
 
-	li	$v0, 10
-	syscall	
+	la	$a0, arr		# pass the address of arr as an argument
+	jal	sort
+	nop
 
 
 read:	li	$v0, 4			# print prompt
@@ -38,6 +40,23 @@ read:	li	$v0, 4			# print prompt
 	li	$v0, 5			# read int into $v0
 	syscall
 
-	sw	$v0, ($a1)
 	jr	$ra			# return control to main
+	nop
+
+sort:	addiu	$a0, $a0, 4		# move pointer
+	
+sortL:	move	$s0, $a0
+	
+sortN:	blez	$s0, Ndone
+	nop
+	lw	$s2, ($s0)
+	addiu	$s1, $s0, -4
+	lw	$s3, ($s1)
+	nop
+	ble	$s3, $s2, Ndone
+	nop
+	sw	$s3, ($s0)
+	sw	$s2, ($s1)
+
+Ndone:	j	sortL
 	nop
