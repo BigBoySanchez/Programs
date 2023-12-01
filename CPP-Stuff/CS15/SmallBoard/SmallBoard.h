@@ -44,7 +44,7 @@ public:
       bool move(int squareNum) {
         if(isBlank(squareNum) && inBounds(squareNum)) //if squareNum is legal and empty
         {
-            squares[squareNum] = ((isXTurn())? EX : OH);
+            squares[squareNum] = (isXTurn())? EX : OH;
             numFilled++;
             return true;    //move is successful
         }
@@ -93,7 +93,7 @@ public:
         
         for(int i = 0; i < 8; i++)
         {
-            if(winSets[i][0] == winSets[i][1] == winSets[i][2])
+            if(squares[winSets[i][0]] == squares[winSets[i][1]] && squares[winSets[i][1]] == squares[winSets[i][2]]) //look at winning combinations and see if they're filled with the same char
             {
                 xWin += (squares[winSets[i][0]] == EX);
                 oWin += (squares[winSets[i][0]] == OH);
