@@ -69,12 +69,13 @@ read:	li	$v0, 4			# print prompt
 	# using bubble sort
 sort:	li	$t0, 0			# num of sorted values*4
 
-	# first loop
+	
+	# keeps track of sorted values
 sortL:	bge	$t0, $a1, doneL		# break if sorted = 9
 	nop
 	li	$t4, 0			# swapped = false
 
-	# nested loop
+	# moves largest unsorted int before previous sorted int
 	li	$t1, 0			# second index
 	subu	$a1, $a1, $t0		# $a1 = remaining unsorted
 sortN:	bge	$t1, $a1, doneN		# break if sorted >= remaining unsorted
