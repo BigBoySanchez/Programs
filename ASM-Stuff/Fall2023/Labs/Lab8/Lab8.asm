@@ -109,13 +109,25 @@ mLoop:	jal	inP									# poll input
 	
 	jal	outP									# poll output
 	nop
-	beqz	$v0, skip								# WIP
-	addiu	$sp, $sp, 4								# pop to currDisp
+	beqz	$v0, skip								# keep currDisp if nothing printed
+	addiu	$sp, $sp, 4								# pop input
 
-	addiu	$sp, $sp, 8								# pop to base of disp
-	lw	$t0, ($sp) 
-	addiu	$sp, $sp, -4
-	sw	$t0, ($sp)								# push base of display
+	addiu	$sp, $sp, 4								# pop currDisp
+	lw	$t0, ($sp)								
+	nop
+	addiu	$t0, $t0, 1								# and increment to next char
+
+	lb	$t1, ($t0)								# load char at currDisp
+	nop
+
+	bnez	$t1, newP								# store incremented pointer if not NUL
+	nop
+
+	addiu	$sp, $sp, 4								# pop base of disp
+	lw	$t0, ($sp)
+	addiu	$sp, $sp, -4								# "push" base of disp
+
+newP:	sw	$t0, ($sp)								# push base of display/currDisp+1S
 	addiu	$sp, $sp, -4
 
 
@@ -156,27 +168,27 @@ outP:	sw	$ra, ($sp)								# push return address
 	addiu	$sp, $sp, 4								# pass bases as parameter
 
 	li	$t1, 'a'
-	bne	$t0, $t1, prin								# skip if not 'a'
-	jal	norm									# display source normally
-	nop										# WIP sp at currDisp
+	bne	$t0, $t1, case2								# display source normally
+	jal	norm									
+	nop
+											# WIP sp at currDisp
+case2:	li	$t1, 't'								# toggle case
+	bne	$t0, $t1, prin
+	jal	tog
+	nop
 
 prin:	li	$t0, 0xffff0000								# base of memory-mapped IO area
 
 	lw	$t1, 8($t0)								# load ???
 	nop
-	andi	$t1, $t1, 1								# $t1 = ready bit
-	beqz	$t1, ret2								# skip load word if input is not ready
-	li	$v0, 0									# assumes '\n' didn't print
+	andi	$v0, $t1, 1								# will return ready bit
+	beqz	$t1, ret2								# skip load word if output is not ready
+	nop
 
 	lw	$t1, ($sp)								# load currDisp
 	nop
 	lb	$t2, ($t1)								# load next character of string
-
-	addiu	$t1, $t1, 1								# increment currDisp
-	sw	$t1, ($sp)
-
-	li	$t1, '\n'
-	seq	$v0, $t1, $t2								# return "printed '\n'"
+	nop
 	sw	$t2, 12($t0)								# write character to display
 
 ret2:	addiu	$sp, $sp, -12							
@@ -211,7 +223,48 @@ copyN:	lb	$t2, ($t1)								# get char at source
 	jr	$ra									# return to caller
 	nop
 
-delay:	li	$t0, 99
+tog:	addiu	$sp, $sp, 4								# pop base of disp
+	lw	$t0, ($sp)
+
+	addiu	$sp, $sp, 4								# pop base of source
+	lw	$t1, ($sp)
+	nop
+
+copyT:	lb	$t2, ($t1)								# get char at source
+	nop
+	xori	$t2, $t2, 32								# toggle case
+
+	li	$t3, 'A'
+	blt	$t2, $t3, inc
+
+	li	$t3, 'Z'
+	bgt	$t2, $t3, betwn
+
+valid:	sb	$t2, ($t0)								# store toggled char in disp
+
+inc:	addiu	$t0, $t0, 1								# increment pointers
+	addiu	$t1, $t1, 1
+
+	xori	$t2, $t2, 32								# return to original value
+	bnez	$t2, copyT								# get another char until NUL is stored
+	nop
+
+	j	ret3
+	nop
+
+betwn:	li	$t3, 'a'
+	blt	$t2, $t3, inc
+
+	li	$t3, 'z'
+	ble	$t2, $t3, valid
+	nop
+
+ret3:	addiu	$sp, $sp, -8								# move $sp back to original spot
+	jr	$ra									# return to caller
+	nop
+
+
+delay:	li	$t0, -9
 	nop
 dLoop:	addiu	$t0, $t0, -1
 	nop
