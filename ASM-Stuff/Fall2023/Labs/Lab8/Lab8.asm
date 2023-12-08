@@ -265,16 +265,8 @@ ret3:	addiu	$sp, $sp, -8								# move $sp back to original spot
 
 
 delay:	li	$t0, -9
-	nop
 dLoop:	addiu	$t0, $t0, -1
-	nop
 	bgez	$t0, dLoop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
 	nop
 
 	jr	$ra									# return
