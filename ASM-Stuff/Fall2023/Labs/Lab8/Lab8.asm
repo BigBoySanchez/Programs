@@ -77,6 +77,7 @@
 ## delay?
 
 	.data
+# source:	.asciiz	"t.\n"								# WIP smaller array for testing
 source:	.asciiz	"Fifteen outside, baby, I was actin' like a damn thug I wanted to be just like my brother\n"
 display:.space	99									# bigger than source just in case
 
@@ -91,7 +92,7 @@ main:	la	$t0, source								# make pointer to source
 	addiu	$sp, $sp, -4
 
 	jal	norm									# get default display
-	nop
+	nop										## WIP change function call for testing
 
 	la	$t0, display								# push currDisp							
 	sw	$t0, ($sp)
@@ -103,14 +104,11 @@ mLoop:	jal	inP									# poll input
 	li	$t0, 'q'								# load q for comparison
 	beq	$t0, $v0, quit								# quit if 'q' was pressed
 	nop
-
-	sw	$v0, ($sp)								# push input otherwise
-	addiu	$sp, $sp, -4
 	
 	jal	outP									# poll output
 	nop
 	beqz	$v0, skip								# keep currDisp if nothing printed
-	addiu	$sp, $sp, 4								# pop input
+	nop
 
 	addiu	$sp, $sp, 4								# pop currDisp
 	lw	$t0, ($sp)								
@@ -127,11 +125,11 @@ mLoop:	jal	inP									# poll input
 	lw	$t0, ($sp)
 	addiu	$sp, $sp, -4								# "push" base of disp
 
-newP:	sw	$t0, ($sp)								# push base of display/currDisp+1S
+newP:	sw	$t0, ($sp)								# push base of display/currDisp+1
 	addiu	$sp, $sp, -4
 
 
-skip:	jal	delay									# WIP
+skip:	jal	delay									# delay if too fast
 	nop
 
 	j	mLoop									# poll input and output again
@@ -141,10 +139,16 @@ quit:	addiu	$sp, $sp, 12								# pop entire stack
 	li	$v0, 10
 	syscall
 
-	# will not call another function
-inP:	li	$t0, 0xffff0000								# base of memory-mapped IO area
+	# WIP will not call another function
+	# poll input and change display appropriately. returns key pressed
+inP:	sw	$ra, ($sp)								# push return address
+	addiu	$sp, $sp, -4
+
+	addiu	$sp, $sp, 8								# pop to currDisp
+
+	li	$t0, 0xffff0000								# base of memory-mapped IO area
 	
-	lw	$t1, ($t0)								# load ???
+	lw	$t1, ($t0)								# WIP load ???
 	nop
 	andi	$t1, $t1, 1								# $t1 = ready bit
 	beqz	$t1, ret1								# skip load word if input is not ready
@@ -152,53 +156,52 @@ inP:	li	$t0, 0xffff0000								# base of memory-mapped IO area
 	li	$v0, 0									# default return value
 	lb	$v0, 4($t0)								# return value if smth was read (WIP FOR SCIENCE)
 
-ret1:	jr	$ra									# return to main
-	nop
-
-	# WILL call another function
-	# parameters: bases, currDisp, input
-outP:	sw	$ra, ($sp)								# push return address
-	addiu	$sp, $sp, -4
-
-	sw	$fp, ($sp)
-	addiu	$sp, $sp, -4								# push frame pointer (WIP might change later)
-
-	addiu	$sp, $sp, 12								# load input
-	lw	$t0, ($sp)
-	addiu	$sp, $sp, 4								# pass bases as parameter
-
 	li	$t1, 'a'
-	bne	$t0, $t1, case2								# display source normally
+	bne	$v0, $t1, case2								# display source normally
 	jal	norm									
 	nop
-											# WIP sp at currDisp
+
 case2:	li	$t1, 't'								# toggle case
-	bne	$t0, $t1, prin
+	bne	$v0, $t1, case3
 	jal	tog
 	nop
 
-prin:	li	$t0, 0xffff0000								# base of memory-mapped IO area
+case3:	li	$t1, 's'								# sort display
+	bne	$v0, $t1, case4
+	jal	sort
+	nop
 
-	lw	$t1, 8($t0)								# load ???
+	## HENRY DELETE COMMENTS
+case4:	# li	$t1, 'r'
+	# bne	$v0, $t1, ret1
+	# jal	sort
+	# nop
+
+ret1:	addiu	$sp, $sp, -4								# push to ra
+	lw	$ra, ($sp)								# get ra to main
+	nop
+
+
+	jr	$ra									# return to main
+	nop
+
+	# WIP WILL call another function
+	# poll output, print, and return "output successful"
+outP:	li	$t0, 0xffff0000								# base of memory-mapped IO area
+
+	lw	$t1, 8($t0)								# WIP load ???
 	nop
 	andi	$v0, $t1, 1								# will return ready bit
-	beqz	$t1, ret2								# skip load word if output is not ready
+	beqz	$v0, ret2								# skip load word if output is not ready
 	nop
 
-	lw	$t1, ($sp)								# load currDisp
+	lw	$t1, 4($sp)								# load currDisp
 	nop
 	lb	$t2, ($t1)								# load next character of string
 	nop
 	sw	$t2, 12($t0)								# write character to display
 
-ret2:	addiu	$sp, $sp, -12							
-	lw	$fp, ($sp)								# pop fp
-	
-	addiu	$sp, $sp, 4
-	lw	$ra, ($sp)								# pop ra
-	nop
-
-	jr	$ra									# return to main
+ret2:	jr	$ra									# return to main
 	nop
 
 	# display = source
@@ -223,6 +226,7 @@ copyN:	lb	$t2, ($t1)								# get char at source
 	jr	$ra									# return to caller
 	nop
 
+	# display = case-toggled source
 tog:	addiu	$sp, $sp, 4								# pop base of disp
 	lw	$t0, ($sp)
 
@@ -263,7 +267,94 @@ ret3:	addiu	$sp, $sp, -8								# move $sp back to original spot
 	jr	$ra									# return to caller
 	nop
 
+# Sort function
+# Find length
+# Find position of newl
+# Sort based off length - 1 (-1 is to get rid of new line)
+# Save length so we can add newl later
+# Basic bubble sorting routine
+# Store sorted string back into display
+# Jump register ($ra)
+# Done. 
 
+## always do lb and sb when checking chars (chars = 1 byte)
+## stack pointer is working fine
+## he wants us to load the bases from the stack but idk if he cares
+
+sort:
+
+	li	$t0, 0				# Loading 0 for pointer / counter in $t0.
+	li	$t3, 0				# $t3 will hold the the size of length. 
+	la	$a0, source			# Load address into $a0.
+
+	# find length by traversing until newline
+	
+checkIt:
+	lb	$t2, source($t3)		# checkIt will determine where the newline is, so we can sort the string seperate from the newline.
+	nop
+	addiu	$t3, $t3, 1
+	beq	$t2, 10, pivot
+	nop
+	j	checkIt				# We save the length to add the newline back at the appropriate index.
+	nop
+	
+pivot:	move	$t4, $t3			# Copy the position of newline to $t4.
+	addiu	$t3, $t3, -1			# Decrement $t3 by 1 to get length of string.
+	
+
+outerL:
+	bge	$t0, $t3, doneO			# Basic bubble sort routine, sorts string based off ascii values and stores into display label.
+	nop
+
+	li	$t5, 0				#  swap flag
+	li	$t1, 0				#  pointer
+
+	subu	$t3, $t3, $t0
+
+inner:
+	bge	$t3, $t0, doneI
+	nop
+
+	lb	$t2, source($t0)		# Current char
+	nop
+	addiu	$t0, $t0, 1			# Increment
+
+	lb	$t6, source($t0)		# Next char
+	nop
+
+	bge	$t2, $t6, nextIt		# If in correct order already, continue to the next iteration.
+	nop
+
+	sb	$t2, display($t0)		# Store lower ascii value.
+	nop
+
+	addiu	$t0, $t0, -1			# Decrement
+
+	sb	$t6, display($t0)		# Store greater ascii value.
+	nop
+	
+	li	$t5, 1				# Flag = true.
+
+doneO:
+	addu	$t3, $t3, $t0
+	beqz	$t5, doneI			# If flag = false, exit
+	nop
+
+	j	outer				# Jump to outer loop.
+	nop
+nextIt:
+	j	inner				# Jump to inner loop.
+	nop
+
+doneI:
+	li	$t9, '\n'			# Add back newline to sorted array
+	sb	$t9, display($t4)		# $t4 contains position of last character.
+	nop
+
+	jr	$ra				# Back to caller
+	nop
+
+# delay polls if needed
 delay:	li	$t0, -9
 dLoop:	addiu	$t0, $t0, -1
 	bgez	$t0, dLoop
