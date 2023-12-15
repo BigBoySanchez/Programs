@@ -10,7 +10,6 @@
 #
 
 	.data
-# source:	.asciiz	"t.\n"								# WIP smaller array for testing
 source:	.asciiz	"Fifteen outside, baby, I was actin' like a damn thug I wanted to be just like my brother\n"
 display:.space	99									# bigger than source just in case
 
@@ -134,7 +133,16 @@ ret2:	jr	$ra									# return to main
 	nop
 
 	# display = source
-norm:	addiu	$sp, $sp, 4								# pop base of disp
+norm:	addiu	$sp, $sp, -8
+	sw	$ra, ($sp)								# push $ra
+	addiu	$sp, $sp, -4
+
+	sw	$fp, ($sp)								# push $fp
+	addiu	$sp, $sp, -4
+
+	move	$fp, $sp								# initialize fp
+
+	addiu	$sp, $sp, 20								# pop base of disp
 	lw	$t0, ($sp)
 
 	addiu	$sp, $sp, 4								# pop base of source
@@ -151,65 +159,71 @@ copyN:	lb	$t2, ($t1)								# get char at source
 	bnez	$t2, copyN								# get another char until NUL is stored
 	nop
 
-	addiu	$sp, $sp, -8								# move $sp back to original spot
+	addiu	$sp, $fp, 4								# move $sp back to top
+	lw	$fp, ($sp)								# pop fp
+
+	addiu	$sp, $sp, 4								# pop ra
+	lw	$ra, ($sp)
+
+	addiu	$sp, $sp, 8
+	
 	jr	$ra									# return to caller
 	nop
 
-	# display = case-toggled source
-tog:	addiu	$sp, $sp, 4								# pop base of disp
-	lw	$t0, ($sp)
+	# toggle case in display
+tog:	addiu	$sp, $sp, -8
+	sw	$ra, ($sp)								# push $ra
+	addiu	$sp, $sp, -4
 
-	addiu	$sp, $sp, 4								# pop base of source
-	lw	$t1, ($sp)
+	sw	$fp, ($sp)								# push $fp
+	addiu	$sp, $sp, -4
+
+	move	$fp, $sp								# initialize
+											
+	lw	$t0, 20($fp)								# get base of disp
 	nop
 
-copyT:	lb	$t2, ($t1)								# get char at source
-	nop
-	xori	$t2, $t2, 32								# toggle case
+copyT:	lb	$t1, ($t0)								# get char at disp
 
-	li	$t3, 'A'
-	blt	$t2, $t3, inc
-
-	li	$t3, 'Z'
-	bgt	$t2, $t3, betwn
-
-valid:	sb	$t2, ($t0)								# store toggled char in disp
-
-inc:	addiu	$t0, $t0, 1								# increment pointers
-	addiu	$t1, $t1, 1
-
-	xori	$t2, $t2, 32								# return to original value
-	bnez	$t2, copyT								# get another char until NUL is stored
+	li	$t2, 'A'
+	blt	$t1, $t2, inc								# char is too small
 	nop
 
-	j	ret3
+	li	$t2, 'Z'
+	bgt	$t1, $t2, betwn								# check if char is between upper and lowercase chars
 	nop
 
-betwn:	li	$t3, 'a'
-	blt	$t2, $t3, inc
+valid:	xori	$t1, $t1, 32								# return to original value
+	sb	$t1, ($t0)								# store toggled char in disp
 
-	li	$t3, 'z'
-	ble	$t2, $t3, valid
+inc:	addiu	$t0, $t0, 1								# increment pointer
+	
+	bnez	$t1, copyT								# get another char until NUL is stored
 	nop
 
-ret3:	addiu	$sp, $sp, -8								# move $sp back to original spot
+	addiu	$sp, $sp, 4								# pop fp
+	lw	$fp, ($sp)
+
+	addiu	$sp, $sp, 4								# pop sp
+	lw	$ra, ($sp)
+
+	addiu	$sp, $sp, 8								# move sp back to original spot
+
 	jr	$ra									# return to caller
 	nop
 
-# Sort function
-# Find length
-# Find position of newl
-# Sort based off length - 1 (-1 is to get rid of new line)
-# Save length so we can add newl later
-# Basic bubble sorting routine
-# Store sorted string back into display
-# Jump register ($ra)
-# Done. 
+betwn:	li	$t2, 'a'
+	blt	$t1, $t2, inc								# char invalid, between upper and lowercase chars
+	nop
 
-## always do lb and sb when checking chars (chars = 1 byte)
-## stack pointer is working fine
-## he wants us to load the bases from the stack but idk if he cares
+	li	$t2, 'z'
+	bgt	$t1, $t2, inc								# char too big
+	nop
+	
+	j	valid									# char is good
+	nop
 
+# Sort function (shoutout zoheb)
 sort:
 	li	$t0, 0
 	
@@ -269,7 +283,7 @@ done2:
 	nop
 
 
-
+	# reverses anything in display (shoutout zoheb)
 reverse:	
 	li	$t0, 0
 checkSizeR:
@@ -289,7 +303,7 @@ loopRR:
 	nop
 	lb	$t4, display($t2)		# end
 	nop
-	sb	$t4, display($t0)		# 
+	sb	$t4, display($t0)
 	nop
 	sb	$t3, display($t2)
 	nop

@@ -91,14 +91,151 @@ case4:	li	$t1, 'r'								# reverse display
 	nop
 
 	addiu	$sp, $sp, -4								# move sp back to og spot
+	sb	$t2, userK								# store last char pressed into userK
 
-	# did reciever interrupt?
+	# did transmitter interrupt?
 skipR:	mfc0	$t0, $13								# move cause register into $t0
 	andi	$t0, $t0, 0x400								# mask transmitter ready bit
 	beqz	$t0, skipT								# skip transmitter code if not ready
 
+	# poll output, print, and return "output successful"
+	li	$t0, 0xffff0000								# base of memory-mapped IO area
+
+	lw	$t1, 4($sp)								# load currDisp
+	lb	$t2, ($t1)								# load next character of string
+	sw	$t2, 12($t0)								# write character to display
+
+	# display = source
+norm:	addiu	$sp, $sp, -8
+	sw	$ra, ($sp)								# push $ra
+	addiu	$sp, $sp, -4
+
+	sw	$fp, ($sp)								# push $fp
+	addiu	$sp, $sp, -4
+
+	move	$fp, $sp								# initialize fp
+
+	addiu	$sp, $sp, 20								# pop base of disp
+	lw	$t0, ($sp)
+
+	addiu	$sp, $sp, 4								# pop base of source
+	lw	$t1, ($sp)
+
+copyN:	lb	$t2, ($t1)								# get char at source
+	sb	$t2, ($t0)								# and store it in disp
+
+	addiu	$t0, $t0, 1								# increment pointers
+	addiu	$t1, $t1, 1
+
+	bnez	$t2, copyN								# get another char until NUL is stored
+
+	addiu	$sp, $fp, 4								# move $sp back to top
+	lw	$fp, ($sp)								# pop fp
+
+	addiu	$sp, $sp, 4								# pop ra
+	lw	$ra, ($sp)
+
+	addiu	$sp, $sp, 8
+	
+	jr	$ra									# return to caller
+
+	# toggle case in display
+tog:	addiu	$sp, $sp, -8
+	sw	$ra, ($sp)								# push $ra
+	addiu	$sp, $sp, -4
+
+	sw	$fp, ($sp)								# push $fp
+	addiu	$sp, $sp, -4
+
+	move	$fp, $sp								# initialize
+											
+	lw	$t0, 20($fp)								# get base of disp
+
+copyT:	lb	$t1, ($t0)								# get char at disp
+
+	li	$t2, 'A'
+	blt	$t1, $t2, inc								# char is too small
+
+	li	$t2, 'Z'
+	bgt	$t1, $t2, betwn								# check if char is between upper and lowercase chars
+
+valid:	xori	$t1, $t1, 32								# return to original value
+	sb	$t1, ($t0)								# store toggled char in disp
+
+inc:	addiu	$t0, $t0, 1								# increment pointer
+	
+	bnez	$t1, copyT								# get another char until NUL is stored
+
+	addiu	$sp, $sp, 4								# pop fp
+	lw	$fp, ($sp)
+
+	addiu	$sp, $sp, 4								# pop sp
+	lw	$ra, ($sp)
+
+	addiu	$sp, $sp, 8								# move sp back to original spot
+
+	jr	$ra									# return to caller
+
+betwn:	li	$t2, 'a'
+	blt	$t1, $t2, inc								# char invalid, between upper and lowercase chars
+	nop
+
+	li	$t2, 'z'
+	bgt	$t1, $t2, inc								# char too big
+	nop
+	
+	j	valid									# char is good
+	nop
+
+	# sort function
+sort:
+	li	$t0, 0
+	
+checkSize:
+	lb	$t1, display($t0)		# Find newl, work with string length - newline char
+	nop
+	beq	$t1, 10, pivot			# newline will be added back later. this is to ensure newl doesnt get sorted
+	nop
+	addiu	$t0, $t0, 1
+	j	checkSize
+	nop
+pivot:
+	move	$t9, $t0
+	addiu	$t2, $t0, -1			# $t9 = pos of newl, $t2 = characters we are working with
+	li	$t0, 0
+	
+outerL:
+	beq	$t0, $t2, done2			# if outer loop = length, jump to done2
+	li	$t3, 0				# init inner loop
 	
 
+innerL:
+	bge	$t3, $t2, continue		# continue to outer loop if the inner loop reaches length
+
+	lb	$t5, display($t3)		# load current char into $t5
+	addiu	$t3, $t3, 1			# go to next char
+
+	lb	$t6, display($t3)		# $t6 = next char
+
+	ble	$t5, $t6, nswap			# if sorted, do not swap
+	
+	sb	$t5, display($t3)		# else, swap
+	addiu	$t3, $t3, -1
+	sb	$t6, display($t3)
+	
+nswap:
+	addiu	$t4, $t4, 1			#continue to next iteration of inner
+	j	innerL
+
+continue:
+	addiu	$t0, $t0, 1			# iterate the outer loop, jump to outer.
+	j	outerL
+
+done2:
+	li	$t8, '\n'			# $t8 = newl
+	sb	$t8, display($t9)		# store newl back into string using $t9 as a pointer
+	
+	jr	$ra				# return to caller
 
 	eret
 
@@ -123,7 +260,7 @@ main:	la	$t0, source								# make pointer to source
 	nop
 
 	mfc0	$t0, $12								# get bit pattern in status
-	ori	$t0, $t0, 0xC01								# turn on enable bit, transmitter, reciever
+	ori	$t0, $t0, 0xc01								# turn on enable bit, transmitter, reciever
 	mtc0	$t0, $12								# put int modified bit pattern
 
 	# check if 'q' was pressed
