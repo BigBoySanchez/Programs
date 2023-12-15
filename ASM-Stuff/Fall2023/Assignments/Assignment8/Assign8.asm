@@ -50,28 +50,28 @@ tempAt:	.word	0									# space for $at from main
 	sw	$t0, ($sp)
 	addiu	$sp, $sp, -4
 
-	la	$t0, display								# push currDisp							
+	lw	$t0, currD								# push currDisp							
 	sw	$t0, ($sp)
 	addiu	$sp, $sp, -4
-	
 	
 	# is reciever ready?
 	mfc0	$t0, $13								# move cause register into $t0
 	andi	$t0, $t0, 0x800								# mask reciever ready bit
 	beqz	$t0, skipR								# skip reciever code if not ready
 
-	# get user's character change display appropriately. returns key pressed
+	# get user's character change display appropriately. saves key pressed in userK
 	addiu	$sp, $sp, 4								# pop to currDisp
 
 	li	$t0, 0xffff0000								# base of memory-mapped IO area
 	
-	lw	$t1, ($t0)								# WIP load ???
+	lw	$t1, ($t0)
 	
-	li	$t2, 0									# default return value
+	li	$t2, 0
 	lb	$t2, 4($t0)								# return value if smth was read
+	sw	$t2, userK								# store last char pressed into userK
 
 	li	$t1, 'a'
-	bne	$v0, $t1, case2								# display source normally
+	bne	$t2, $t1, case2								# display source normally
 	jal	norm									
 	nop
 
@@ -86,24 +86,45 @@ case3:	li	$t1, 's'								# sort display
 	nop
 
 case4:	li	$t1, 'r'								# reverse display
-	bne	$t2, $t1, ret1
+	bne	$t2, $t1, fall
 	jal	reverse
 	nop
 
-	addiu	$sp, $sp, -4								# move sp back to og spot
-	sb	$t2, userK								# store last char pressed into userK
+fall:	addiu	$sp, $sp, 8								# move sp back to og spot
+	j	skipT
 
 	# did transmitter interrupt?
 skipR:	mfc0	$t0, $13								# move cause register into $t0
 	andi	$t0, $t0, 0x400								# mask transmitter ready bit
 	beqz	$t0, skipT								# skip transmitter code if not ready
 
-	# poll output, print, and return "output successful"
+	# print char
 	li	$t0, 0xffff0000								# base of memory-mapped IO area
 
 	lw	$t1, 4($sp)								# load currDisp
 	lb	$t2, ($t1)								# load next character of string
 	sw	$t2, 12($t0)								# write character to display
+
+	# change currDisp appropriately
+	addiu	$sp, $sp, 4								# pop currDisp
+	lw	$t0, ($sp)								
+	addiu	$t0, $t0, 1								# and increment to next char
+
+	lb	$t1, ($t0)								# load char at currDisp
+
+	addiu	$sp, $sp, 0								# move pointer back to og position
+	bnez	$t1, newP								# store incremented pointer if not NUL
+
+	addiu	$sp, $sp, 4								# pop base of disp
+	lw	$t0, ($sp)
+	addiu	$sp, $sp, -4								# "push" base of disp
+
+newP:	sw	$t0, currD								# store base of display/currDisp+1
+	sw	$t0, ($sp)
+#	addiu	$sp, $sp, -4
+	addiu	$sp, $sp, 8								# move pointer back to og position
+
+	j	skipT
 
 	# display = source
 norm:	addiu	$sp, $sp, -8
@@ -121,13 +142,13 @@ norm:	addiu	$sp, $sp, -8
 	addiu	$sp, $sp, 4								# pop base of source
 	lw	$t1, ($sp)
 
-copyN:	lb	$t2, ($t1)								# get char at source
+copyM:	lb	$t2, ($t1)								# get char at source
 	sb	$t2, ($t0)								# and store it in disp
 
 	addiu	$t0, $t0, 1								# increment pointers
 	addiu	$t1, $t1, 1
 
-	bnez	$t2, copyN								# get another char until NUL is stored
+	bnez	$t2, copyM								# get another char until NUL is stored
 
 	addiu	$sp, $fp, 4								# move $sp back to top
 	lw	$fp, ($sp)								# pop fp
@@ -192,59 +213,116 @@ sort:
 	li	$t0, 0
 	
 checkSize:
-	lb	$t1, display($t0)		# Find newl, work with string length - newline char
+	lb	$t1, display($t0)							# Find newl, work with string length - newline char
 	nop
-	beq	$t1, 10, pivot			# newline will be added back later. this is to ensure newl doesnt get sorted
+	beq	$t1, 10, pivot								# newline will be added back later. this is to ensure newl doesnt get sorted
 	nop
 	addiu	$t0, $t0, 1
 	j	checkSize
 	nop
 pivot:
 	move	$t9, $t0
-	addiu	$t2, $t0, -1			# $t9 = pos of newl, $t2 = characters we are working with
+	addiu	$t2, $t0, -1								# $t9 = pos of newl, $t2 = characters we are working with
 	li	$t0, 0
 	
 outerL:
-	beq	$t0, $t2, done2			# if outer loop = length, jump to done2
-	li	$t3, 0				# init inner loop
+	beq	$t0, $t2, done2								# if outer loop = length, jump to done2
+	li	$t3, 0									# init inner loop
 	
 
 innerL:
-	bge	$t3, $t2, continue		# continue to outer loop if the inner loop reaches length
+	bge	$t3, $t2, continue							# continue to outer loop if the inner loop reaches length
 
-	lb	$t5, display($t3)		# load current char into $t5
-	addiu	$t3, $t3, 1			# go to next char
+	lb	$t5, display($t3)							# load current char into $t5
+	addiu	$t3, $t3, 1								# go to next char
 
-	lb	$t6, display($t3)		# $t6 = next char
+	lb	$t6, display($t3)							# $t6 = next char
 
-	ble	$t5, $t6, nswap			# if sorted, do not swap
+	ble	$t5, $t6, nswap								# if sorted, do not swap
 	
-	sb	$t5, display($t3)		# else, swap
+	sb	$t5, display($t3)							# else, swap
 	addiu	$t3, $t3, -1
 	sb	$t6, display($t3)
 	
 nswap:
-	addiu	$t4, $t4, 1			#continue to next iteration of inner
+	addiu	$t4, $t4, 1								# continue to next iteration of inner
 	j	innerL
 
 continue:
-	addiu	$t0, $t0, 1			# iterate the outer loop, jump to outer.
+	addiu	$t0, $t0, 1								# iterate the outer loop, jump to outer.
 	j	outerL
 
 done2:
-	li	$t8, '\n'			# $t8 = newl
-	sb	$t8, display($t9)		# store newl back into string using $t9 as a pointer
+	li	$t8, '\n'								# $t8 = newl
+	sb	$t8, display($t9)							# store newl back into string using $t9 as a pointer
 	
-	jr	$ra				# return to caller
+	jr	$ra									# return to caller
 
-	eret
+	# reverses anything in display (shoutout zoheb)
+reverse:	
+	li	$t0, 0
+checkSizeR:
+	lb	$t1, display($t0)							# Find newl, work with string length - newline char
+	beq	$t1, 10, pivotR								# newline will be added back later. this is to ensure newl doesnt get sorted
+	addiu	$t0, $t0, 1
+	j	checkSizeR
+	
+pivotR:
+	move	$t9, $t0
+	addiu	$t2, $t0, -1
+	li	$t0, 0
+loopRR:
+	lb	$t3, display($t0)							# start
+	lb	$t4, display($t2)							# end
+	sb	$t4, display($t0)
+	sb	$t3, display($t2)
+	addiu	$t0, $t0, 1
+	addiu	$t2, $t2, -1
+	
+	bge	$t0, $t2, nextSteps
+	j	loopRR
 
+nextSteps:
+	li	$t5, '\n'
+	sb	$t5, display($t9)
+
+	jr	$ra
+
+skipT:	
+
+	# pop registers that were be used by handler
+	addiu	$sp, $sp, 4
+	lw	$t9, ($sp)
+	addiu	$sp, $sp, 4
+	lw	$t8, ($sp)
+	addiu	$sp, $sp, 4
+	lw	$t6, ($sp)
+	addiu	$sp, $sp, 4
+	lw	$t5, ($sp)
+	addiu	$sp, $sp, 4
+	lw	$t4, ($sp)
+	addiu	$sp, $sp, 4
+	lw	$t3, ($sp)
+	addiu	$sp, $sp, 4
+	lw	$t2, ($sp)
+	addiu	$sp, $sp, 4
+	lw	$t1, ($sp)
+	addiu	$sp, $sp, 4
+	lw	$t0, ($sp)
+
+	# get $at back
+	lw	$k1, tempAt								# load saved at into k1
+	.set	noat									# allow use of at
+	move	$at, $k1								# move it back into at
+	.set	at									# allow use of at from pseudoinstructions
+
+	eret										# return to main program
 
 	.data
-userK:	.byte	0
-source:	.asciiz	"t.\n"									# WIP smaller array for testing
-# source:	.asciiz	"Fifteen outside, baby, I was actin' like a damn thug I wanted to be just like my brother\n"
+userK:	.word	0
+source:	.asciiz	"F1fteen {}utsid3, b4by, | was actin' like a da/\/\ n thug I wanted to be just l!ke my brother\n"
 display:.space	99									# bigger than source just in case
+currD:	.word	0									#
 
 	.text
 	.globl	main
@@ -256,6 +334,8 @@ main:	la	$t0, source								# make pointer to source
 	sw	$t0, ($sp)
 	addiu	$sp, $sp, -4
 
+	sw	$t0, currD								# initialize currD
+
 	jal	norma									# copy source to display
 	nop
 
@@ -263,12 +343,24 @@ main:	la	$t0, source								# make pointer to source
 	ori	$t0, $t0, 0xc01								# turn on enable bit, transmitter, reciever
 	mtc0	$t0, $12								# put int modified bit pattern
 
+	li	$t0, 0xffff0000								# turn on reciever control register
+	lw	$t1, ($t0)
+	ori	$t1, $t1, 2
+	sw	$t1, ($t0)
+
+	li	$t0, 0xffff0008								# turn on transmitter control register 
+	lw	$t1, ($t0)
+	ori	$t1, $t1, 2
+	sw	$t1, ($t0)
+
 	# check if 'q' was pressed
-mLoop:	lb	$t0, userK
+mLoop:	lw	$t0, userK
 	li	$t1, 'q'
 
 	bne	$t0, $t1, mLoop								# loop while 'q' isn't pressed
 
+	addiu	$sp, $sp, 8								# move sp to og spot
+	
 	li	$v0, 10									# exit swag style
 	syscall
 
@@ -307,18 +399,3 @@ copyN:	lb	$t2, ($t1)								# get char at source
 
 	jr	$ra									# return to caller
 	nop
-
-# PSEUDOCODE:
-
-
-# main:
-## copy source to disp
-## enable interrupts
-### ori $12, $12, 110000000001
-### ori reciever control (0xFFFF0000) with 1?
-
-## LOOP:
-### load is q
-### break if set
-## END LOOP:
-

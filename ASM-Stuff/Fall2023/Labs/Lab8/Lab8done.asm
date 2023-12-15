@@ -1,8 +1,8 @@
 #
 # Lab8.asm
 # 
-# Jacob Ativo
-# [function]
+# Jacob Ativo, Zoheb Sharif, Ganeev Sidhu
+# Polling with memory mapped I/O
 #
 # Settings: Bare Machine OFF, Allow Pseudo Instructions ON, 
 # 	    Load Exception File OFF, Delayed Branches ON, 
@@ -10,7 +10,7 @@
 #
 
 	.data
-source:	.asciiz	"Fifteen outside, baby, I was actin' like a damn thug I wanted to be just like my brother\n"
+source:	.asciiz	"F1fteen {}utsid3, b4by, | was actin' like a da/\/\ n thug I wanted to be just l!ke my brother\n"
 display:.space	99									# bigger than source just in case
 
 	.text
@@ -24,7 +24,7 @@ main:	la	$t0, source								# make pointer to source
 	addiu	$sp, $sp, -4
 
 	jal	norm									# get default display
-	nop										## WIP change function call for testing
+	nop
 
 	la	$t0, display								# push currDisp							
 	sw	$t0, ($sp)
@@ -79,7 +79,7 @@ inP:	sw	$ra, ($sp)								# push return address
 
 	li	$t0, 0xffff0000								# base of memory-mapped IO area
 	
-	lw	$t1, ($t0)								# WIP load ???
+	lw	$t1, ($t0)
 	nop
 	andi	$t1, $t1, 1								# $t1 = ready bit
 	beqz	$t1, ret1								# skip load word if input is not ready
@@ -117,7 +117,7 @@ ret1:	addiu	$sp, $sp, -4								# push to ra
 	# poll output, print, and return "output successful"
 outP:	li	$t0, 0xffff0000								# base of memory-mapped IO area
 
-	lw	$t1, 8($t0)								# WIP load ???
+	lw	$t1, 8($t0)
 	nop
 	andi	$v0, $t1, 1								# will return ready bit
 	beqz	$v0, ret2								# skip load word if output is not ready
