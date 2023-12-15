@@ -2,11 +2,11 @@
 # Assign8.asm
 #
 # Jacob Ativo
-# [function]
+# Using an Exception handler to to Lab8
 #
 # Settings: Bare Machine OFF, Allow Pseudo Instructions ON, 
 # 	    Load Exception File OFF, Delayed Branches OFF, 
-# 	    Delayed Loads OFF, Mapped IO OFF
+# 	    Delayed Loads OFF, Mapped IO ON
 #
 
 # Exception handler WIP
@@ -121,7 +121,6 @@ skipR:	mfc0	$t0, $13								# move cause register into $t0
 
 newP:	sw	$t0, currD								# store base of display/currDisp+1
 	sw	$t0, ($sp)
-#	addiu	$sp, $sp, -4
 	addiu	$sp, $sp, 8								# move pointer back to og position
 
 	j	skipT
@@ -340,18 +339,8 @@ main:	la	$t0, source								# make pointer to source
 	nop
 
 	mfc0	$t0, $12								# get bit pattern in status
-	ori	$t0, $t0, 0xc01								# turn on enable bit, transmitter, reciever
+	ori	$t0, $t0, 0xc01								# turn on global enable bit, transmitter, reciever
 	mtc0	$t0, $12								# put int modified bit pattern
-
-	li	$t0, 0xffff0000								# turn on reciever control register
-	lw	$t1, ($t0)
-	ori	$t1, $t1, 2
-	sw	$t1, ($t0)
-
-	li	$t0, 0xffff0008								# turn on transmitter control register 
-	lw	$t1, ($t0)
-	ori	$t1, $t1, 2
-	sw	$t1, ($t0)
 
 	# check if 'q' was pressed
 mLoop:	lw	$t0, userK
