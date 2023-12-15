@@ -321,7 +321,7 @@ skipT:
 userK:	.word	0
 source:	.asciiz	"F1fteen {}utsid3, b4by, | was actin' like a da/\/\ n thug I wanted to be just l!ke my brother\n"
 display:.space	99									# bigger than source just in case
-currD:	.word	0									#
+currD:	.word	0									# current char to be displayed
 
 	.text
 	.globl	main
