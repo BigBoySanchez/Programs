@@ -342,6 +342,17 @@ main:	la	$t0, source								# make pointer to source
 	ori	$t0, $t0, 0xc01								# turn on global enable bit, transmitter, reciever
 	mtc0	$t0, $12								# put int modified bit pattern
 
+	li	$t0, 0xffff0000								# load reciever control register
+	lw	$t1, ($t0)
+	ori	$t1, $t1, 2								# turn on enable bit
+	sw	$t1, ($t0)								# put new bit pattern in register
+
+	# do the same for transmitter
+	li	$t0, 0xffff0008
+	lw	$t1, ($t0)
+	ori	$t1, $t1, 2
+	sw	$t1, ($t0)
+
 	# check if 'q' was pressed
 mLoop:	lw	$t0, userK
 	li	$t1, 'q'
