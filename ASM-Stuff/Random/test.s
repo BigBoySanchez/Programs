@@ -7,7 +7,6 @@
         .text
         .globl  main
 main:
-        push	rbp
         mov	rbp, rsp
         sub	rsp, 32
 	call	__main
@@ -17,5 +16,4 @@ main:
 
         mov     rax, 0
         add	rsp, 32
-	pop	rbp
         ret
