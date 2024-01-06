@@ -10,8 +10,10 @@ GOAL: given current prestiege and added levels,
 
 3787 + 3782 = 7569
 */
+#include <stdio.h>
 
-int main(int argc, char **argv)
-{
 
+int main() {
+      printf("Hello World!");
+      return 0;
 }
