@@ -19,17 +19,17 @@ int main() {
     FILE *user_stream = stdout;
     FILE *data_stream = fopen("Langs.csv", "r+"); //r+ = read & write
     char *langs[MAX_LANGUAGES];
-    double weights[MAX_LANGUAGES];
+    float weights[MAX_LANGUAGES];
     int streaks[MAX_LANGUAGES];
     void *arrays[] = {langs, weights, streaks};
     const int READ_PROCESSES[] = {STRING, DOUBLE, INT};
-    int num_langs = read(data_stream, arrays, READ_PROCESSES, sizeof(arrays));
+    int num_langs = 0;
     
     //check if Langs was opened
     if(data_stream == NULL) {
         printf("Could not open file \"Langs.csv\".");
         return 1;
-    }
+    } else num_langs = read(data_stream, arrays, READ_PROCESSES, 3);
 
     //seeding random number generator
     struct timespec seed;

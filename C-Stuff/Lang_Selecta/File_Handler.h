@@ -10,44 +10,50 @@ enum PROCESS_CODES{
     DOUBLE = 2
 };
 
-
 //initialize arrays using data_stream. returns # of lines read or -1 on error
-int read(FILE *data_stream, void *arrays[], const int READ_PROCESSES[], const int NUM_ARRAYS) {
+int read(FILE *data_stream, void* arrays[], const int READ_PROCESSES[], const int NUM_ARRAYS) {
     int num_read = 0;
     char line[BUF_SIZE];
 
     while(fgets(line, sizeof(line), data_stream) != NULL) { //read line of file into line until EOF
-        char *format[BUF_SIZE];
-        char *token = strtoken(line, "'\n");
+        char *token = strtok(line, ",\n");
+        const int TOK_LEN = strlen(token);
+        int process_num = 0;
 
-        switch (READ_PROCESSES[num_read])
-        {
-            case STRING:
-                format = "%s";
-                break;
-            case INT:
-                format = "%d";
-                break;
-            case DOUBLE:
-                format = "%lf";
-                break;
-            default:
-                return -1;
-                break;
+        while(process_num < NUM_ARRAYS) { 
+            const int CURR_PROCESS = READ_PROCESSES[process_num];
+            void *curr_array = arrays[process_num];
+            
+            //read data into appropriate array based on process
+            //returns -1 on invalid process
+            switch (CURR_PROCESS) {
+                case STRING:
+                    //assumes string has quotes
+                    //remove quotes around string
+                    token[TOK_LEN - 1] = '\0';
+                    token++;
+
+                    //alloc space for string
+                    ((char **)curr_array)[num_read] = malloc((TOK_LEN - 2) * sizeof(char));
+                    if(((char **)curr_array)[num_read] == NULL) return -1;
+                    
+                    strcpy(((char **)curr_array)[num_read], token);
+                    break;
+                case INT:
+                    sscanf(token, "%d", &((int *)curr_array)[num_read]);
+                    break;
+                case DOUBLE:
+                    curr_array += num_read * sizeof(double);
+                    sscanf(token, "%lf", &((double *)curr_array)[num_read]);
+                    break;
+                default:
+                    return -1;
+                    break;
+            }
+            //get next token
+            token = strtok(NULL, ",\n");
+            process_num++;
         }
-        
-        //remove quotes around string
-        lang_to_add[lang_len - 1] = '\0';
-        lang_to_add++;
-
-        //alloc space for string
-        langs[num_read] = malloc((lang_len - 2) * sizeof(char));
-        if(langs[num_read] == NULL) {
-            printf("Can't allocate curr_string.\n");
-            return 1;
-        } 
-        
-        strcpy(langs[num_read], lang_to_add);
         num_read++;
     }
 
