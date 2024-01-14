@@ -4,7 +4,7 @@
 
 #define BUF_SIZE 128
 
-enum PROCESS_CODES{
+enum PROCESS_CODES {
     STRING = 0,
     INT = 1,
     DOUBLE = 2
@@ -43,7 +43,6 @@ int read(FILE *data_stream, void* arrays[], const int READ_PROCESSES[], const in
                     sscanf(token, "%d", &((int *)curr_array)[num_read]);
                     break;
                 case DOUBLE:
-                    curr_array += num_read * sizeof(double);
                     sscanf(token, "%lf", &((double *)curr_array)[num_read]);
                     break;
                 default:
@@ -58,4 +57,10 @@ int read(FILE *data_stream, void* arrays[], const int READ_PROCESSES[], const in
     }
 
     return num_read;
+}
+
+//WIP
+//Update file weights and streaks
+void update_file() {
+    return;
 }
