@@ -10,14 +10,73 @@ std::ostream& operator<<(std::ostream& out, const LetterBag1& lb) {
 
 //insert each char in s to letters
 LetterBag1::LetterBag1(std::string s) {
+    for(size = 0; size < s.length() && size < MAXSIZE; ++size)
+        letters[size] = s[size];
+
+    //modified insertion sort. og code from "https://www.geeksforgeeks.org/insertion-sort/"
+    int i, key, j;
+    for (i = 1; i < size; i++) {
+        key = letters[i];
+        j = i - 1;
+ 
+        // Move elements of arr[0..i-1],
+        // that are greater than key, 
+        // to one position ahead of their
+        // current position
+        while (j >= 0 && letters[j] > key) {
+            letters[j + 1] = letters[j];
+            j = j - 1;
+        }
+        letters[j + 1] = key;
+    }
+}
+/*
+LetterBag1::LetterBag1(std::string s) {
     size = 0;
     for(int i = 0; i < s.length(); ++i)
         insertOne(s[i]);
 }
+*/
 
 //insert char into proper position in letters
 void LetterBag1::insertOne(char ch) {
-    if(size == MAXSIZE) return;
+    if(size == MAXSIZE || !isalpha(ch)) return; //dont insert ch if letters is full or ch isn't a letter
+    int l = 0;
+    int r = size - 1;
+    int m = 0;
+
+    //modified binary search. og code from "https://www.geeksforgeeks.org/binary-search/"
+    while (l <= r) {
+        m = l + (r - l) / 2;
+        
+        if (letters[m] < ch) l = m + 1; // If ch greater, ignore left half
+        else if(letters[m] > ch) r = m - 1; // If ch is smaller, ignore right half
+        else break; //ch must be present at mid
+    }
+    if(letters[m] < ch) ++m;
+
+    //shift elements after m to the right
+    r = size;
+    ++size;
+    while(r > m) {
+        letters[r] = letters[r - 1];
+        --r;
+    }
+    letters[m] = ch;
+}
+
+/*
+insert 7
+[1, 2, 4, 6, 11]
+             ^^         
+
+
+*/
+
+
+/*
+void LetterBag1::insertOne(char ch) {
+    if(size == MAXSIZE || !isalpha(ch)) return; //dont insert ch if letters is full or ch isn't a letter
     int index = 0;
     int right = size + 1;
     ch = tolower(ch);
@@ -36,14 +95,14 @@ void LetterBag1::insertOne(char ch) {
     letters[right] = ch;
     ++size;
 }
+*/
 
 //remove one instance of ch
 void LetterBag1::removeOne(char ch) {
-    if(isEmpty()) return;
+    if(isEmpty() || !isalpha(ch)) return;
     int l = 0;
     int r = size - 1;
     int m = 0;
-
 
     //modified binary search. og code from "https://www.geeksforgeeks.org/binary-search/"
     while (l <= r) {
@@ -188,29 +247,24 @@ bool LetterBag1::operator!=(const LetterBag1& other) const {
 //note for me: b < c -> other < this
 //tests if char count of curr object is less than char count of other object on the first mismatch
 bool LetterBag1::operator<(const LetterBag1& other) const {
-    //find first mismatch
     for(char c = 'a'; c <= 'z'; ++c) {
         int thisCount = this->getCount(c);
         int otherCount = other.getCount(c);
-
-        if(thisCount <)
+        
+        if(thisCount != otherCount) return thisCount < otherCount;
     }
+    return false; //since both bags are equal
 }
 
 //same as < or =
 bool LetterBag1::operator<=(const LetterBag1& other) const {
-    char lastChar = '\0';
-
-    //find first mismatch
-    for(int i = 0; i < this->getSize() && i < other.getSize(); ++i) {
-        if(this->letters[i] == lastChar) continue; //ignore current letter if it's not new
-
-        lastChar = letters[i];
-        int thisCount = this->getCount(lastChar);
-        int otherCount = other.getCount(lastChar);
-        if(thisCount != otherCount) return otherCount < thisCount; //check if curr object has less of lastChar than other object
+    for(char c = 'a'; c <= 'z'; ++c) {
+        int thisCount = this->getCount(c);
+        int otherCount = other.getCount(c);
+        
+        if(thisCount != otherCount) return thisCount < otherCount;
     }
-    return true; //no mismatches
+    return true; //since both bags are equal
 }
 
 //returns !(curr <= other). same as curr > other
