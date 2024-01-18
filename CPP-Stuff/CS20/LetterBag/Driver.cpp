@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
-#include "LetterBag1.h"
-#include "LetterBag2.h"
+#include "LetterBag1.cpp" //WIP CHANGE BACK
+//#include "LetterBag2.h"
 #include <cstdlib>
 #include <ctime>
 using namespace std;
@@ -43,6 +43,7 @@ cout << "b union c = " << b.getUnion(c) << endl;
 cout << "c union b = " << c.getUnion(b) << endl;
 cout << "___________________________________________ " << endl << endl;
 }
+/*
 void getInfo2(const LetterBag2& b, const LetterBag2& c) {
 cout << endl << "____________LetterBag2 Results_____________" << endl << endl;
 cout << "b = " << b << " or \"" << b.toString() << "\", size=" << b.getSize();
@@ -81,6 +82,7 @@ cout << "b union c = " << b.getUnion(c) << endl;
 cout << "c union b = " << c.getUnion(b) << endl;
 cout << "___________________________________________ " << endl << endl;
 }
+*/
 void stressTest1(int iterations) {
 cout << "STRESS TEST 1\t";
 cout << "Press Enter to start.";
@@ -130,6 +132,7 @@ cout << "countAll = " << countAll << endl;
 cout << "removeCount = " << removeCount << endl;
 cout << "Elapsed time = " << time(0) - t0 << endl << endl;
 }
+/*
 void stressTest2(int iterations) {
 cout << "STRESS TEST 2\t";
 cout << "Press Enter to start.";
@@ -179,23 +182,24 @@ cout << "countAll = " << countAll << endl;
 cout << "removeCount = " << removeCount << endl;
 cout << "Elapsed time = " << time(0) - t0 << endl << endl;
 }
+*/
 int main()
 {
 cout << boolalpha;
-srand(unsigned int(time(0)));
+srand((unsigned int)(time(0))); //WIP CHANGE BACK
 cout << "Enter a string to initialize b: ";
 string s;
 getline(cin, s);
 LetterBag1 b1(s);
-LetterBag2 b2(s);
+//LetterBag2 b2(s);
 cout << "Enter a string to initialize c: ";
 getline(cin, s);
 LetterBag1 c1(s);
-LetterBag2 c2(s);
+//LetterBag2 c2(s);
 char ch;
 int choice;
 getInfo1(b1, c1);
-getInfo2(b2, c2);
+//getInfo2(b2, c2);
 bool quit = false;
 do {
 cout << "Select an option below. " << endl << endl;
@@ -211,30 +215,30 @@ switch (choice) {
 case 1: cout << "Enter char: ";
 std::cin >> ch;
 b1.insertOne(ch);
-b2.insertOne(ch);
+//b2.insertOne(ch);
 break;
 case 2: cout << "Enter char: ";
 std::cin >> ch;
 b1.removeOne(ch);
-b2.removeOne(ch);
+//b2.removeOne(ch);
 break;
 case 3: cout << "Enter char: ";
 std::cin >> ch;
 c1.insertOne(ch);
-c2.insertOne(ch);
+//c2.insertOne(ch);
 break;
 case 4: cout << "Enter char: ";
 std::cin >> ch;
 c1.removeOne(ch);
-c2.removeOne(ch);
+//c2.removeOne(ch);
 break;
-case 5: b1.clear(); b2.clear(); break;
-case 6: c1.clear(); c2.clear(); break;
+case 5: b1.clear(); /*b2.clear()*/; break;
+case 6: c1.clear(); /*c2.clear()*/; break;
 default: quit = true;
 }
 if (!quit) {
 getInfo1(b1, c1);
-getInfo2(b2, c2);
+//getInfo2(b2, c2);
 }
 } while (!quit);
 int iterations;
@@ -242,5 +246,6 @@ cout << "Enter number of iterations for stress tests: ";
 cin >> iterations;
 cin.ignore(80, '\n');
 stressTest1(iterations);
-stressTest2(iterations);
+//stressTest2(iterations);
 return 0;
+}
