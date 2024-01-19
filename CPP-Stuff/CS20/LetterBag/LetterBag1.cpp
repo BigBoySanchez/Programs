@@ -11,7 +11,7 @@ std::ostream& operator<<(std::ostream& out, const LetterBag1& lb) {
 //insert each char in s to letters
 LetterBag1::LetterBag1(std::string s) {
     size = 0;
-    for(int i = 0; i < min((int)s.length(), MAXSIZE); ++i) {
+    for(int i = 0; i < s.length(); ++i) {
         if(isalpha(s[i])) {
             char currChar = tolower(s[i]);
             ++size;
@@ -146,30 +146,27 @@ char LetterBag1::getSmallest() const {
 
 //return union of curr object and another one.
 LetterBag1 LetterBag1::getUnion(const LetterBag1& other) const {
+    //return non-empty bag if either is empty. return empty bag if both are empty
+    if(this->isEmpty()) return other;
+    if(other.isEmpty()) return *this;
+    
     LetterBag1 temp; //build temp from scratch to avoid insert calls
     int i = 0, j = 0;
 
-    while(i < min(this->size, MAXSIZE) || j < min(other.size, MAXSIZE)) {
-        if(this->letters[i] <= other.letters[j]) {
-            ++temp.size;
-            temp.letters[temp.size - 1] = this->letters[i];
+    //copy both bags into temp
+    while(i < this->size || j < other.size) {        
+        //copy "smaller" letters first
+        if(j == other.size || (i < this->size && this->letters[i] <= other.letters[j])) {
+            temp.insertOne(this->letters[i]);
             ++i;
         }
-        if(this->letters[i] >= other.letters[j]) {
-            ++temp.size;
-            temp.letters[temp.size - 1] = other.letters[j];
+
+        else if(i == this->size || (j < other.size && this->letters[i] >= other.letters[j])) {
+            temp.insertOne(other.letters[j]);
             ++j;
         }
     }
-
-    /*
-    {a,e,l,p,p}
-    {a,c,e,h,p}
-    
-    
-    
-    
-    */
+    return temp;
 }
 
 //returns true if letters is empty. false otherwise
@@ -180,30 +177,28 @@ bool LetterBag1::isEmpty() const {
 //return true if curr object is a subset of other
 bool LetterBag1::isSubbagOf(const LetterBag1& other) const {
     if(this->isEmpty()) return true; //empty set is tha subset of every set
-    if(this->getSize() > other.getSize()) return false;
-    char lastChar = '\0';
+    if(this->size > other.size) return false;
+    int i = this->size - 1, j = other.size - 1;
 
-    for(int i = 0; i < this->getSize(); ++i) {
-        if(this->letters[i] == lastChar) continue; //ignore current letter if it's not new
-
-        lastChar = this->letters[i];
-        if(this->getCount(lastChar) > other.getCount(lastChar)) return false; //too many characters in curr object
+    while(i >= 0 && j >= 0) {
+        if(this->letters[i] < other.letters[j]) --j; //go backwards in other until familiar char is found
+        else if(this->letters[i] == other.letters[j]) { //check next char in curr bag
+            --i;
+            --j;
+        }
+        if(this->letters[i] > other.letters[j]) return false; //bc this object is stuck on char that shouldn't be there
     }
-    return true;
+    return i == -1; //check if this bag was completely checked
 }
 
 //return true if both bags are the same
 bool LetterBag1::operator==(const LetterBag1& other) const {
-    if(this->getSize() != other.getSize()) return false;
-    char lastChar = '\0';
+    if(this->size != other.size) return false;
 
-    for(int i = 0; i < this->getSize(); ++i) {
-        if(this->letters[i] == lastChar) continue; //ignore current letter if it's not new
-
-        lastChar = this->letters[i];
-        if(this->getCount(lastChar) != other.getCount(lastChar)) return false; //char counts aren't the same
-    }
-    return true;
+    //try to find mismatching char
+    for(int i = 0; i < this->size; ++i)
+        if(this->letters[i] != other.letters[i]) return false;
+    return true; //no mismatching chars found
 }
 
 //test if both object aren't equal
@@ -211,27 +206,24 @@ bool LetterBag1::operator!=(const LetterBag1& other) const {
     return !(*this == other);
 }
 
-//note for me: b < c -> other < this
 //tests if char count of curr object is less than char count of other object on the first mismatch
 bool LetterBag1::operator<(const LetterBag1& other) const {
-    for(char c = 'a'; c <= 'z'; ++c) {
-        int thisCount = this->getCount(c);
-        int otherCount = other.getCount(c);
-        
-        if(thisCount != otherCount) return thisCount < otherCount;
-    }
-    return false; //since both bags are equal
+    //if either bag is empty, test if the other bag is not empty
+    if(this->isEmpty()) return !other.isEmpty();
+    if(other.isEmpty()) return !this->isEmpty();
+    
+    for(int i = 0; i < std::min(this->size, other.size); ++i)
+        //bc this->letter would be greater if other had a "smaller" letter
+        if(this->letters[i] != other.letters[i]) return this->letters[i] > other.letters[i];
+    return false; //both bags must be equal
 }
 
 //same as < or =
 bool LetterBag1::operator<=(const LetterBag1& other) const {
-    for(char c = 'a'; c <= 'z'; ++c) {
-        int thisCount = this->getCount(c);
-        int otherCount = other.getCount(c);
-        
-        if(thisCount != otherCount) return thisCount < otherCount;
-    }
-    return true; //since both bags are equal
+    for(int i = 0; i < std::min(this->size, other.size); ++i)
+        //bc this->letter would be greater if other had a "smaller" letter
+        if(this->letters[i] != other.letters[i]) return this->letters[i] > other.letters[i];
+    return true; //both bags must be equal
 }
 
 //returns !(curr <= other). same as curr > other

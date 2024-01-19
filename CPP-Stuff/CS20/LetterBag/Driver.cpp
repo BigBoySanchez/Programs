@@ -253,7 +253,7 @@ int main()
     char ch;
     int choice;
     getInfo1(b1, c1);
-    getInfo2(b2, c2);
+    //getInfo2(b2, c2);
     bool quit = false;
     do
     {
@@ -307,7 +307,7 @@ int main()
         if (!quit)
         {
             getInfo1(b1, c1);
-            getInfo2(b2, c2);
+            //getInfo2(b2, c2);
         }
     } while (!quit);
     int iterations;
@@ -315,6 +315,6 @@ int main()
     cin >> iterations;
     cin.ignore(80, '\n');
     stressTest1(iterations);
-    stressTest2(iterations);
+    //stressTest2(iterations);
     return 0;
 }
