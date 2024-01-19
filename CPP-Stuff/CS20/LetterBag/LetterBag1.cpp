@@ -10,92 +10,23 @@ std::ostream& operator<<(std::ostream& out, const LetterBag1& lb) {
 
 //insert each char in s to letters
 LetterBag1::LetterBag1(std::string s) {
-    for(size = 0; size < s.length() && size < MAXSIZE; ++size)
-        letters[size] = s[size];
-
-    //modified insertion sort. og code from "https://www.geeksforgeeks.org/insertion-sort/"
-    int i, key, j;
-    for (i = 1; i < size; i++) {
-        key = letters[i];
-        j = i - 1;
- 
-        // Move elements of arr[0..i-1],
-        // that are greater than key, 
-        // to one position ahead of their
-        // current position
-        while (j >= 0 && letters[j] > key) {
-            letters[j + 1] = letters[j];
-            j = j - 1;
-        }
-        letters[j + 1] = key;
-    }
-}
-/*
-LetterBag1::LetterBag1(std::string s) {
     size = 0;
     for(int i = 0; i < s.length(); ++i)
         insertOne(s[i]);
 }
-*/
 
-//insert char into proper position in letters
+//insert ch into letters while keeping letters sorted
 void LetterBag1::insertOne(char ch) {
     if(size == MAXSIZE || !isalpha(ch)) return; //dont insert ch if letters is full or ch isn't a letter
-    int l = 0;
-    int r = size - 1;
-    int m = 0;
-
-    //modified binary search. og code from "https://www.geeksforgeeks.org/binary-search/"
-    while (l <= r) {
-        m = l + (r - l) / 2;
-        
-        if (letters[m] < ch) l = m + 1; // If ch greater, ignore left half
-        else if(letters[m] > ch) r = m - 1; // If ch is smaller, ignore right half
-        else break; //ch must be present at mid
-    }
-    if(letters[m] < ch) ++m;
-
-    //shift elements after m to the right
-    r = size;
-    ++size;
-    while(r > m) {
-        letters[r] = letters[r - 1];
-        --r;
-    }
-    letters[m] = ch;
-}
-
-/*
-insert 7
-[1, 2, 4, 6, 11]
-             ^^         
-
-
-*/
-
-
-/*
-void LetterBag1::insertOne(char ch) {
-    if(size == MAXSIZE || !isalpha(ch)) return; //dont insert ch if letters is full or ch isn't a letter
-    int index = 0;
-    int right = size + 1;
+    int i = size;
     ch = tolower(ch);
-
-    //find proper spot for ch
-    while(index < size && letters[index] < ch)
-        ++index;
-    
-    //shift elements after index one place to the right. starting from the last one
-    while(right > index) {
-        letters[right] = letters[right - 1];
-        --right;
-    }
-    
-    //put ch into proper spot
-    letters[right] = ch;
     ++size;
+
+    //move elements to the right until a spot for ch is found
+    for(; i > 0 && letters[i - 1] > ch; --i)
+        letters[i] = letters[i - 1];
+    letters[i] = ch;
 }
-*/
 
 //remove one instance of ch
 void LetterBag1::removeOne(char ch) {
@@ -124,7 +55,7 @@ void LetterBag1::removeOne(char ch) {
 //returns amount of ch in letters
 int LetterBag1::getCount(char ch) const {
     if(isEmpty()) return 0;
-    int count = 0;
+    int count = 1;
     int l = 0;
     int r = size - 1;
     int m = 0;
@@ -140,8 +71,8 @@ int LetterBag1::getCount(char ch) const {
     }
     if(letters[m] != ch) return 0; //return early if ch was not found
 
-    l = m;
-    r = m;
+    l = m - 1;
+    r = m + 1;
 
     //count the amount of ch to the left of m
     while (letters[l] == ch && l >= 0) {
