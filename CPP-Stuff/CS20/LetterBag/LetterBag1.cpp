@@ -11,8 +11,29 @@ std::ostream& operator<<(std::ostream& out, const LetterBag1& lb) {
 //insert each char in s to letters
 LetterBag1::LetterBag1(std::string s) {
     size = 0;
-    for(int i = 0; i < s.length(); ++i)
-        insertOne(s[i]);
+    for(int i = 0; i < min((int)s.length(), MAXSIZE); ++i) {
+        if(isalpha(s[i])) {
+            char currChar = tolower(s[i]);
+            ++size;
+            letters[size - 1] = currChar;
+        }
+    }
+
+    //modified insertion sort. og code from "https://www.geeksforgeeks.org/insertion-sort/"
+    for (int i = 1; i < size; i++) {
+        int key = letters[i];
+        int j = i - 1;
+ 
+        // Move elements of arr[0..i-1],
+        // that are greater than key, 
+        // to one position ahead of their
+        // current position
+        while (j >= 0 && letters[j] > key) {
+            letters[j + 1] = letters[j];
+            j = j - 1;
+        }
+        letters[j + 1] = key;
+    }
 }
 
 //insert ch into letters while keeping letters sorted
@@ -125,15 +146,30 @@ char LetterBag1::getSmallest() const {
 
 //return union of curr object and another one.
 LetterBag1 LetterBag1::getUnion(const LetterBag1& other) const {
-    //return non-empty object or an empty object if both are empty
-    if(other.isEmpty()) return *this;
-    if(this->isEmpty()) return other;
+    LetterBag1 temp; //build temp from scratch to avoid insert calls
+    int i = 0, j = 0;
 
-    //copy other into temp, then add letters in curr object to temp
-    LetterBag1 temp = other;
-    for(int i = 0; i < size; ++i)
-        temp.insertOne(letters[i]);
-    return temp;
+    while(i < min(this->size, MAXSIZE) || j < min(other.size, MAXSIZE)) {
+        if(this->letters[i] <= other.letters[j]) {
+            ++temp.size;
+            temp.letters[temp.size - 1] = this->letters[i];
+            ++i;
+        }
+        if(this->letters[i] >= other.letters[j]) {
+            ++temp.size;
+            temp.letters[temp.size - 1] = other.letters[j];
+            ++j;
+        }
+    }
+
+    /*
+    {a,e,l,p,p}
+    {a,c,e,h,p}
+    
+    
+    
+    
+    */
 }
 
 //returns true if letters is empty. false otherwise
