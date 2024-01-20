@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
-#include "LetterBag1.h"
-#include "LetterBag2.h"
+#include "LetterBag1.cpp"
+#include "LetterBag2.cpp"
 #include <cstdlib>
 #include <ctime>
 using namespace std;
@@ -240,7 +240,7 @@ void stressTest2(int iterations)
 int main()
 {
     cout << boolalpha;
-    srand(unsigned int(time(0)));
+    srand((unsigned int)(time(0)));
     cout << "Enter a string to initialize b: ";
     string s;
     getline(cin, s);

@@ -11,7 +11,7 @@ std::ostream& operator<<(std::ostream& out, const LetterBag1& lb) {
 //insert each char in s to letters
 LetterBag1::LetterBag1(std::string s) {
     size = 0;
-    for(int i = 0; i < s.length(); ++i) {
+    for(int i = 0; i < s.length() && i < MAXSIZE; ++i) {
         if(isalpha(s[i])) {
             char currChar = tolower(s[i]);
             ++size;
@@ -55,6 +55,7 @@ void LetterBag1::removeOne(char ch) {
     int l = 0;
     int r = size - 1;
     int m = 0;
+    ch = tolower(ch);
 
     //modified binary search. og code from "https://www.geeksforgeeks.org/binary-search/"
     while (l <= r) {
@@ -157,12 +158,14 @@ LetterBag1 LetterBag1::getUnion(const LetterBag1& other) const {
     while(i < this->size || j < other.size) {        
         //copy "smaller" letters first
         if(j == other.size || (i < this->size && this->letters[i] <= other.letters[j])) {
-            temp.insertOne(this->letters[i]);
+            ++temp.size;
+            temp.letters[temp.size - 1] = this->letters[i];
             ++i;
         }
 
         else if(i == this->size || (j < other.size && this->letters[i] >= other.letters[j])) {
-            temp.insertOne(other.letters[j]);
+            ++temp.size;
+            temp.letters[temp.size - 1] = other.letters[j];
             ++j;
         }
     }
@@ -208,9 +211,8 @@ bool LetterBag1::operator!=(const LetterBag1& other) const {
 
 //tests if char count of curr object is less than char count of other object on the first mismatch
 bool LetterBag1::operator<(const LetterBag1& other) const {
-    //if either bag is empty, test if the other bag is not empty
-    if(this->isEmpty()) return !other.isEmpty();
-    if(other.isEmpty()) return !this->isEmpty();
+    if(this->isEmpty()) return !other.isEmpty(); //empty bag < other iff other isn't also empty
+    if(other.isEmpty()) return false; //nothing is less than an empty bag
     
     for(int i = 0; i < std::min(this->size, other.size); ++i)
         //bc this->letter would be greater if other had a "smaller" letter
@@ -220,10 +222,13 @@ bool LetterBag1::operator<(const LetterBag1& other) const {
 
 //same as < or =
 bool LetterBag1::operator<=(const LetterBag1& other) const {
+    if(this->isEmpty()) return true; //an empty bag is always <= other
+    if(other.isEmpty()) return false; //bc this bag can't be empty & nothing is smaller than empty
+    
     for(int i = 0; i < std::min(this->size, other.size); ++i)
         //bc this->letter would be greater if other had a "smaller" letter
         if(this->letters[i] != other.letters[i]) return this->letters[i] > other.letters[i];
-    return true; //both bags must be equal
+    return this->size == other.size; //test if both bags are equal
 }
 
 //returns !(curr <= other). same as curr > other
