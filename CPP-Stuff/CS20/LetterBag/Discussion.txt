@@ -1,0 +1,4 @@
+The only advantages of using an array are easy clearing and printing. For LetterBag1, setting the size to 0 clears the array. For LetterBag2, the bag can't be cleared until 
+all the counts are reset, which requires more work. More empty checks for each function would remove this issue, but I'm happy enough with the results. 
+Printing is easy for the array since I just had to loop through the array. For the dictionary, I had to go through each letter and print the letter once for each count. 
+The dictionary beats the array in every way. All the functions were faster and easier to implement.
