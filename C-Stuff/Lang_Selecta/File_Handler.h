@@ -1,3 +1,6 @@
+#ifndef FILE_HANDLER
+#define FILE_HANDLER
+
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -64,3 +67,5 @@ int read(FILE *data_stream, void* arrays[], const int READ_PROCESSES[], const in
 void update_file() {
     return;
 }
+
+#endif
