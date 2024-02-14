@@ -1,14 +1,12 @@
 #include <stack>
 #include <iostream>
 using namespace std;
-/*
 
 int evaluate(char tokens[], int numTokens) {
 	stack<int> todo;
 	const char UNARY[] = {'!', '~'};
 	
 	for(int i = 0; i < numTokens; ++i) {
-		cout << tokens[i];
         int num1 = 0, num2 = 0;
 		
 		if(tokens[i] >= '0' && tokens[i] <= '9') {
@@ -99,13 +97,13 @@ int evaluate(char tokens[], int numTokens) {
 	
 	return ret;
 }
-*/
+
 
 int main() {
-  //  char help[] = "77+";
- //   int size = sizeof(help) / sizeof(char) - 1;
+   char help[] = "7683S";
+   int size = sizeof(help) / sizeof(char) - 1;
 
- //   cout << evaluate(help, size);
+   cout << evaluate(help, size);
     
     return 0;
 }
