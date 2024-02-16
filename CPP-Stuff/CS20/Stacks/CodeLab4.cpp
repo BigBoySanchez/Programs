@@ -100,7 +100,7 @@ int evaluate(char tokens[], int numTokens) {
 
 
 int main() {
-   char help[] = "7683S";
+   char help[] = "732S";
    int size = sizeof(help) / sizeof(char) - 1;
 
    cout << evaluate(help, size);
