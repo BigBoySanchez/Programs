@@ -1,0 +1,16 @@
+GOALS:
+
+1. allow user to modify the languages file (add, delete, change stats)
+2. pick random language from file (unweighted)
+3. modify weights based on result (weighted)
+4. run settings (ban a few languages before running, change max streak, dont modify file)
+
+1. 
+void add_to_file(lang_data to_add) {
+    - open file (append)
+    - write struct to file
+    - close file
+}
+
+NOTES:
+- make code FOR the project. changes can be made later
