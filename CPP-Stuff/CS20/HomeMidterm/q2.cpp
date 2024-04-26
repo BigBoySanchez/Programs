@@ -1,5 +1,4 @@
 #include <iostream>
-
 #include <stdexcept>
 
 using namespace std;
@@ -35,7 +34,8 @@ class OrderedLinkedList
 
         out << "{ ";
 
-        for(Node<T> *curr = l.headPtr; curr != tailPtr; curr = curr->next) out << curr->value << " ";
+        for (Node<T> *curr = l.headPtr; curr != nullptr; curr = curr->next)
+            out << curr->value << " ";
 
         out << "}";
 
@@ -55,8 +55,10 @@ private:
 
     Node<T> *findNodeWithValue(const T &v) const
     {
-        for(Node<T> *left = headPtr; curr->value < v; left = left->next) {
-            if(left->value == v) return left;
+        for (Node<T> *left = headPtr; curr->value < v && left != nullptr; left = left->next)
+        {
+            if (left->value == v)
+                return left;
         }
 
         return nullptr;
@@ -67,16 +69,20 @@ public:
 
     OrderedLinkedList()
     {
-
-        // FILL IN MISSING CODE
+        headPtr = tailPtr = nullptr;
+        length = 0;
     }
 
     // Copy constructor.
 
     OrderedLinkedList(const OrderedLinkedList &other)
     {
+        length = other.length;
+        headPtr = (other.headPtr == nullptr)? nullptr : new Node<T>(other.headPtr->value);
+        Node<T> *thisCurr = headPtr;
 
-        // FILL IN MISSING CODE
+        for(Node<T> *otherCurr = other.headPtr; otherCurr != nullptr; otherCurr = otherCurr->next, thisCurr = thisCurr->next)
+            thisCurr->next = new Node<T>(otherCurr->value, thisCurr);
     }
 
     // Return value in node at given index
@@ -87,28 +93,33 @@ public:
 
     T &operator[](int index)
     {
-
         if (index < 0 || index > length - 1)
-
             throw logic_error("Index out of bounds");
 
-        // FILL IN MISSING CODE
+        for(Node<T> *curr = headPtr; curr != nullptr; curr = curr->next, index--)
+            if(index == 0) return curr->value;
+
+        return T();
     }
 
     // Destructor
 
     ~OrderedLinkedList()
     {
-
-        // FILL IN MISSING CODE
+        clear();
     }
 
     // Remove all values from the list.
 
     void clear()
     {
-
-        // FILL IN MISSING CODE
+        while(headPtr != nullptr) {
+            Node<T> *toDelete = headPtr;
+            headPtr = headPtr->next;
+            delete toDelete;
+        }
+        tailPtr = nullptr;
+        length = 0;
     }
 
     // Return the number of occurrences of v in the list
@@ -119,10 +130,15 @@ public:
 
     int count(const T &v)
     {
-
         Node<T> *p = findNodeWithValue(v);
+        int ret = 0;
 
-        // FILL IN MISSING CODE
+        while(p != nullptr && p->value == v) {
+            ret++;
+            p = p->next;
+        }
+
+        return ret;
     }
 
     // Print the list values in reverse order,
@@ -134,7 +150,8 @@ public:
 
         cout << "< ";
 
-        // FILL IN MISSING CODE
+        for(Node<T> *curr = tailPtr; curr != nullptr; curr = curr->prev)
+            cout << curr->value << " ";
 
         cout << ">";
 
@@ -153,8 +170,17 @@ public:
 
     void insert(const T &v)
     {
-
-        // FILL IN MISSING CODE
+        if(v <= headPtr->value) {
+            headPtr->prev = new Node<T>(v, nullptr, headPtr);
+            headPtr = headPtr->prev;
+            return;
+        }
+        if(v >= tailPtr->value) {
+            tailPtr->next = new Node<T>(v, tailPtr);
+            tailPtr = tailPtr->next;
+            return;
+        }
+        //WIP
     }
 
     // Return the list length
