@@ -55,10 +55,16 @@ private:
 
     Node<T> *findNodeWithValue(const T &v) const
     {
-        for (Node<T> *left = headPtr; curr->value < v && left != nullptr; left = left->next)
+        if (isEmpty())
+            return nullptr;
+
+        Node<T> *l = headPtr, *r = tailPtr;
+        for (int i = 0; i < length / 2 || l == r; i++)
         {
-            if (left->value == v)
-                return left;
+            if (l->value == v)
+                return l;
+            if (r->value == v && r->prev->value == v)
+                return r; // if r->prev is null then length = 1
         }
 
         return nullptr;
@@ -77,12 +83,22 @@ public:
 
     OrderedLinkedList(const OrderedLinkedList &other)
     {
-        length = other.length;
-        headPtr = (other.headPtr == nullptr)? nullptr : new Node<T>(other.headPtr->value);
-        Node<T> *thisCurr = headPtr;
+        if(other.isEmpty()) {
+            headPtr = tailPtr = nullptr;
+            length = 0;
+            return;
+        }
 
-        for(Node<T> *otherCurr = other.headPtr; otherCurr != nullptr; otherCurr = otherCurr->next, thisCurr = thisCurr->next)
+        headPtr = new Node<T>(other.headPtr->value);
+        Node<T> *thisCurr = headPtr, *otherCurr = other.headPtr->next;
+        while(otherCurr != nullptr) {
             thisCurr->next = new Node<T>(otherCurr->value, thisCurr);
+            thisCurr = thisCurr->next;
+            otherCurr = otherCurr->next;
+        }
+
+        tailPtr = thisCurr;
+        length = other.length;
     }
 
     // Return value in node at given index
@@ -91,15 +107,22 @@ public:
 
     // Message should be "Index out of bounds"
 
+    //fix dat
     T &operator[](int index)
     {
         if (index < 0 || index > length - 1)
             throw logic_error("Index out of bounds");
 
-        for(Node<T> *curr = headPtr; curr != nullptr; curr = curr->next, index--)
-            if(index == 0) return curr->value;
+        Node<T> *l = headPtr, *r = tailPtr;
+        for (int i = 0; i < length / 2 || l == r; i++)
+        {
+            if (i == index)
+                return l->value;
+            if (length - 1 - i == index)
+                return r->value;
+        }
 
-        return T();
+        return headPtr->value; //just in case
     }
 
     // Destructor
@@ -113,7 +136,8 @@ public:
 
     void clear()
     {
-        while(headPtr != nullptr) {
+        while (headPtr != nullptr)
+        {
             Node<T> *toDelete = headPtr;
             headPtr = headPtr->next;
             delete toDelete;
@@ -133,7 +157,8 @@ public:
         Node<T> *p = findNodeWithValue(v);
         int ret = 0;
 
-        while(p != nullptr && p->value == v) {
+        while (p != nullptr && p->value == v)
+        {
             ret++;
             p = p->next;
         }
@@ -150,7 +175,7 @@ public:
 
         cout << "< ";
 
-        for(Node<T> *curr = tailPtr; curr != nullptr; curr = curr->prev)
+        for (Node<T> *curr = tailPtr; curr != nullptr; curr = curr->prev)
             cout << curr->value << " ";
 
         cout << ">";
@@ -167,52 +192,66 @@ public:
     // Avoid needless looping
 
     // when v is the new biggest or the new smallest value.
-
     void insert(const T &v)
     {
-        if(v <= headPtr->value) {
-            headPtr->prev = new Node<T>(v, nullptr, headPtr);
-            headPtr = headPtr->prev;
+        length++;
+        if(length == 1) {
+            headPtr = tailPtr = new Node<T>(v);
             return;
         }
-        if(v >= tailPtr->value) {
-            tailPtr->next = new Node<T>(v, tailPtr);
-            tailPtr = tailPtr->next;
-            return;
+
+        Node<T> *l = headPtr, *r = tailPtr;
+        for(int i = 0; i <= (length - 1) / 2; i++) {
+            if(l->value >= v) {
+                l->prev = new Node<T>(v, l->prev, l);
+                
+                if(l == headPtr) headPtr = headPtr->prev;
+                else l->prev->prev->next = l->prev;
+
+                break;
+            }
+            if(r->value <= v) {
+                r->next = new Node<T>(v, r, r->next);
+                
+                if(r == tailPtr) tailPtr = tailPtr->next;
+                else r->next->next->prev = r->next;
+                
+                break;
+            }
+
+            l = l->next;
+            r = r->prev;
         }
-        //WIP
     }
 
     // Return the list length
 
     int getLength() const
     {
-
-        // FILL IN MISSING CODE
+        return length;
     }
 
     // Return true if the list is empty
 
     bool isEmpty() const
     {
-
-        // FILL IN MISSING CODE
+        return length == 0;
     }
 
     // Set b to the biggest value or do nothing if the list is empty.
 
     void getBiggest(T &b) const
     {
-
-        // FILL IN MISSING CODE
+        if (!isEmpty())
+            b = tailPtr->value;
     }
 
     // Set s to the smallest value or do nothing if the list is empty.
 
     void getSmallest(T &s) const
     {
-
-        // FILL IN MISSING CODE
+        if (!isEmpty())
+            s = headPtr->value;
     }
 
     // Remove the first occurence of v or do nothing if v isn't found.
@@ -221,8 +260,19 @@ public:
 
     void remove(const T &v)
     {
+        Node<T> *toDelete = findNodeWithValue(v);
+        if(toDelete == nullptr) return;
 
-        // FILL IN MISSING CODE
+        if(toDelete == headPtr) {
+            headPtr = headPtr->next;
+        } else if(toDelete == tailPtr) {
+            tailPtr = tailPtr->prev;
+        } else {
+            toDelete->prev->next = toDelete->next;
+            toDelete->next->prev = toDelete->prev;
+        }
+
+        delete toDelete;
     }
 };
 
@@ -230,7 +280,6 @@ template <class T>
 
 void testList(OrderedLinkedList<T> list)
 {
-
     cout << endl
          << "BEGIN TESTLIST" << endl;
 
