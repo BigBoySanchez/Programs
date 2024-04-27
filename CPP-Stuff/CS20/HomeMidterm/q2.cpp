@@ -49,10 +49,13 @@ class OrderedLinkedList {
     if (isEmpty()) return nullptr;
 
     Node<T>*l = headPtr, *r = tailPtr;
-    for (int i = 0; i < length / 2 || l == r; i++) {
+    for (int i = 0; i <= length / 2; i++) {
       if (l->value == v) return l;
-      if (r->value == v && r->prev->value == v)
+      if (r->value == v && r->prev->value != v)
         return r;  // if r->prev is null then length = 1
+
+      l = l->next;
+      r = r->prev;
     }
 
     return nullptr;
@@ -230,17 +233,24 @@ class OrderedLinkedList {
   void remove(const T& v) {
     Node<T>* toDelete = findNodeWithValue(v);
     if (toDelete == nullptr) return;
+    if(length == 1) {
+      clear();
+      return;
+    }
 
     if (toDelete == headPtr) {
       headPtr = headPtr->next;
+      headPtr->prev = nullptr;
     } else if (toDelete == tailPtr) {
       tailPtr = tailPtr->prev;
+      tailPtr->next = nullptr;
     } else {
       toDelete->prev->next = toDelete->next;
       toDelete->next->prev = toDelete->prev;
     }
 
     delete toDelete;
+    length--;
   }
 };
 
