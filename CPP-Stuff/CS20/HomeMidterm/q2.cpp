@@ -233,7 +233,7 @@ class OrderedLinkedList {
   void remove(const T& v) {
     Node<T>* toDelete = findNodeWithValue(v);
     if (toDelete == nullptr) return;
-    if(length == 1) {
+    if (length == 1) {
       clear();
       return;
     }
