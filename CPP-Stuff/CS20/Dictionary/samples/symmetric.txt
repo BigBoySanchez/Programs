@@ -1,0 +1,765 @@
+     1...	{ z: z }  
+    37...	{ y: y }  
+   393...	{ bru: bur,rub }  
+   501...	{ hos: hos,soh }  
+   502...	{ floo: fool,loof }  
+   801...	{ tuu: utu }  
+  1287...	{ dew: dew,wed }  
+  1369...	{ x: x }  
+  1479...	{ oowwww: wowwow }  
+  1725...	{ aan: ana }  
+  1766...	{ eemst: meets,steem }  
+  1910...	{ os: os,so }  
+  1947...	{ osy: soy,yos }  
+  2476...	{ s: s }  
+  2840...	{ deimt: demit,timed }  
+  2945...	{ ar: ar,ra }  
+  2982...	{ ary: ayr,rya }  
+  3297...	{ egm: gem,meg }  
+  3543...	{ hss: shs }  
+  3972...	{ ant: nat,tan }  
+  4386...	{ oss: sos }  
+  4498...	{ bblu: blub,bulb }  
+  4626...	{ ort: rot,tor }  
+  5058...	{ gtu: gut,tug }  
+  5316...	{ deimst: demits,stimed }  
+  5421...	{ ars: ras,sar }  
+  6043...	{ eeiisst: seities }  
+  6064...	{ deem: deem,meed }  
+  6114...	{ int: nit,tin }  
+  6448...	{ anst: nats,stan }  
+  6536...	{ oorst: roots,stoor }  
+  6812...	{ aainr: arian,naira }  
+  7068...	{ agg: gag }  
+  7306...	{ eelp: leep,peel }  
+  7328...	{ cciiv: civic }  
+  7331...	{ aorss: saros,soras }  
+  8590...	{ inst: snit,tins }  
+  9099...	{ ahirrs: harris,sirrah }  
+  9210...	{ ggi: gig }  
+  9338...	{ en: en,ne }  
+  9782...	{ eelps: leeps,peels,sleep,speel }  
+ 10834...	{ door: door,rood }  
+ 11248...	{ enos: enos,sone }  
+ 11400...	{ dor: dor,rod }  
+ 12181...	{ aknr: knar,rank }  
+ 12258...	{ eelpss: sleeps,speels }  
+ 12639...	{ aww: waw }  
+ 12888...	{ din: din,nid }  
+ 13514...	{ eegir: eiger,regie }  
+ 13660...	{ hoop: hoop,pooh }  
+ 14226...	{ hop: hop,poh }  
+ 14280...	{ nru: nur,run }  
+ 14657...	{ aknrs: krans,snark }  
+ 14949...	{ eft: fet,tef }  
+ 15635...	{ op: op,po }  
+ 15765...	{ aev: ave,eva }  
+ 16201...	{ p: p }  
+ 16702...	{ hops: pohs,shop }  
+ 17320...	{ efis: fies,seif }  
+ 17734...	{ bosw: bows,swob }  
+ 17928...	{ einnst: sinnet,tennis }  
+ 18111...	{ ops: pos,sop }  
+ 19146...	{ apr: par,rap }  
+ 19315...	{ adiv: avid,diva }  
+ 20261...	{ ooprt: poort,troop }  
+ 21258...	{ aah: aha }  
+ 21283...	{ eekl: keel,leek }  
+ 21622...	{ aprs: raps,spar }  
+ 21723...	{ def: def,fed }  
+ 22362...	{ btu: but,tub }  
+ 22509...	{ ilppsu: pupils,slipup }  
+ 22513...	{ ilno: lion,noil }  
+ 22667...	{ aa: aa }  
+ 22718...	{ lssuu: sulus }  
+ 22841...	{ abest: sebat,tabes }  
+ 23079...	{ iln: lin,nil }  
+ 23175...	{ hmo: mho,ohm }  
+ 23260...	{ eefr: feer,reef }  
+ 23303...	{ oprst: ports,strop }  
+ 23759...	{ eekls: keels,sleek }  
+ 23868...	{ eennrt: rennet,tenner }  
+ 24018...	{ moo: moo,oom }  
+ 24348...	{ aot: oat,tao }  
+ 24372...	{ abg: bag,gab }  
+ 24584...	{ mo: mo,om }  
+ 24702...	{ deinns: dennis,sinned }  
+ 24838...	{ bstu: buts,stub }  
+ 24914...	{ at: at,ta }  
+ 24935...	{ deeil: edile,elide }  
+ 25143...	{ aas: asa }  
+ 25150...	{ m: m }  
+ 25539...	{ enp: nep,pen }  
+ 25779...	{ oprsst: sports,strops }  
+ 26029...	{ oott: otto,toot }  
+ 26505...	{ ahj: haj,jah }  
+ 26514...	{ bgi: big,gib }  
+ 26595...	{ ott: tot }  
+ 27056...	{ it: it,ti }  
+ 27364...	{ aalv: aval,lava }  
+ 27368...	{ aallu: alula }  
+ 27390...	{ ast: sat,tas }  
+ 27411...	{ deeils: elides,sedile }  
+ 27601...	{ dopr: dorp,prod }  
+ 28095...	{ amr: mar,ram }  
+ 28871...	{ eh: eh,he }  
+ 29071...	{ ostt: stot,tots }  
+ 29136...	{ bdu: bud,dub }  
+ 29145...	{ now: now,won }  
+ 29532...	{ ist: sit,tis }  
+ 29612...	{ ko: ko,ok }  
+ 29714...	{ eo: eo,oe }  
+ 30001...	{ airt: rait,tiar }  
+ 30027...	{ cceors: reccos,soccer }  
+ 30077...	{ doprs: dorps,sprod }  
+ 30178...	{ k: k }  
+ 30237...	{ imr: mir,rim }  
+ 30279...	{ adh: dah,had }  
+ 30280...	{ e: e }  
+ 30859...	{ aajr: ajar,raja }  
+ 31122...	{ ado: ado,oda }  
+ 31270...	{ oopp: oppo,poop }  
+ 31275...	{ eerssv: serves,sevres }  
+ 31347...	{ ehs: ehs,she }  
+ 31547...	{ osstt: stots }  
+ 31621...	{ nosw: snow,wons }  
+ 31688...	{ ad: ad,da }  
+ 31836...	{ opp: pop }  
+ 32477...	{ airst: airts,stria }  
+ 32713...	{ imrs: rims,smir }  
+ 32755...	{ adhs: dahs,shad }  
+ 32793...	{ esy: sey,yes }  
+ 33149...	{ bersu: rebus,suber }  
+ 33203...	{ pptuu: putup }  
+ 33225...	{ aer: are,ear,era,rae }  
+ 33369...	{ dot: dot,tod }  
+ 33598...	{ ados: ados,soda }  
+ 33830...	{ di: di,id }  
+ 34164...	{ ads: das,sad }  
+ 34252...	{ aent: ante,etna,neat,taen }  
+ 35116...	{ acnr: cran,narc }  
+ 35269...	{ essy: seys,syes }  
+ 35330...	{ admno: damon,nomad }  
+ 35701...	{ aers: ares,sera }  
+ 36249...	{ ntu: nut,tun }  
+ 36292...	{ iknt: knit,tink }  
+ 36306...	{ dis: dis,sid }  
+ 36521...	{ aikns: kisan,nasik }  
+ 36880...	{ adrt: dart,trad }  
+ 37330...	{ abel: able,elba }  
+ 37335...	{ iirrtt: tirrit }  
+ 37433...	{ aemnr: namer,reman }  
+ 37592...	{ acnrs: narcs,scran }  
+ 38224...	{ glpu: gulp,plug }  
+ 38259...	{ agn: gan,nag }  
+ 38417...	{ aerrt: arret,terra }  
+ 38725...	{ nstu: nuts,stun }  
+ 38768...	{ iknst: knits,stink }  
+ 39356...	{ adrst: darts,strad }  
+ 39516...	{ ekn: ken,nek }  
+ 39618...	{ een: een,ene,nee }  
+ 40143...	{ ddo: dod }  
+ 40470...	{ ahl: hal,lah }  
+ 40785...	{ mop: mop,pom }  
+ 40951...	{ aabc: abac,caba }  
+ 41115...	{ apt: pat,tap }  
+ 41498...	{ dirst: dirts,strid }  
+ 41676...	{ abb: bab }  
+ 41680...	{ deor: oder,redo }  
+ 42283...	{ dery: drey,yerd }  
+ 42695...	{ moops: moops,spoom }  
+ 42877...	{ gins: gins,snig }  
+ 42994...	{ loot: loot,tool }  
+ 43168...	{ dein: dine,enid }  
+ 43257...	{ ipt: pit,tip }  
+ 43591...	{ apst: pats,spat,stap,taps }  
+ 43654...	{ addr: dard,drad }  
+ 43818...	{ bbi: bib }  
+ 44315...	{ eelnv: leven,nevel }  
+ 44355...	{ als: las,sal }  
+ 44570...	{ eenss: esnes,sense }  
+ 45078...	{ deinos: edison,noside }  
+ 45470...	{ loost: loots,sloot,stool,tools }  
+ 45626...	{ acdel: decal,laced }  
+ 45733...	{ ipst: spit,tips }  
+ 46067...	{ apsst: spats,staps }  
+ 46872...	{ deorrt: dorter,retrod }  
+ 46966...	{ ailr: aril,lair,liar,lira,rail,rial }  
+ 47323...	{ adop: apod,dopa }  
+ 47889...	{ adp: dap,pad }  
+ 47946...	{ loosst: sloots,stools }  
+ 48735...	{ eerrss: serres }  
+ 48884...	{ aahms: amahs,shama }  
+ 49734...	{ mmo: mom }  
+ 49809...	{ deirrs: derris,sirred }  
+ 50064...	{ amt: mat,tam }  
+ 50087...	{ ow: ow,wo }  
+ 50293...	{ aams: maas,saam }  
+ 50653...	{ w: w }  
+ 50768...	{ eestv: evets,steve }  
+ 50772...	{ eelstu: elutes,setule }  
+ 51107...	{ eoprt: repot,toper }  
+ 51721...	{ flow: flow,wolf }  
+ 51902...	{ aeprs: reaps,spaer }  
+ 52435...	{ aims: amis,sima }  
+ 52563...	{ osw: sow,wos }  
+ 52769...	{ aamss: assam,massa }  
+ 52892...	{ beett: tebet }  
+ 53113...	{ c: c }  
+ 53359...	{ eiln: lien,neil }  
+ 53598...	{ arw: raw,war }  
+ 54149...	{ eprst: perts,strep }  
+ 54767...	{ adiln: ladin,nidal }  
+ 55023...	{ cos: cos,soc }  
+ 55087...	{ deennst: dennets,stenned }  
+ 55114...	{ gopr: gorp,prog }  
+ 55194...	{ aet: ate,eat,eta,tae }  
+ 55279...	{ ortw: trow,wort }  
+ 55430...	{ em: em,me }  
+ 55563...	{ abn: ban,nab }  
+ 55819...	{ eenp: neep,peen }  
+ 56190...	{ aammrr: marram }  
+ 56217...	{ bor: bor,bro,orb,rob }  
+ 56309...	{ iimmn: minim }  
+ 56838...	{ adm: dam,mad }  
+ 57053...	{ iimss: simis }  
+ 57441...	{ ett: tet }  
+ 57590...	{ goprs: gorps,sprog }  
+ 57670...	{ aest: etas,sate }  
+ 57705...	{ bin: bin,nib }  
+ 57755...	{ orstw: strow,worts }  
+ 58039...	{ abns: bans,snab }  
+ 58080...	{ alp: lap,pal }  
+ 58693...	{ bors: bros,sorb }  
+ 58980...	{ dim: dim,mid }  
+ 59224...	{ kkoo: kook }  
+ 59385...	{ ddeenn: denned }  
+ 59939...	{ aikss: sakis,sikas }  
+ 59991...	{ enw: new,wen }  
+ 60146...	{ aesst: asset,tessa }  
+ 60181...	{ bins: bins,snib }  
+ 60517...	{ eimr: emir,rime }  
+ 60556...	{ alps: pals,slap }  
+ 60560...	{ ee: ee }  
+ 60597...	{ eey: eye }  
+ 60833...	{ mnotu: muton,notum }  
+ 60882...	{ got: got,tog }  
+ 61407...	{ aahlln: hallan,nallah }  
+ 61677...	{ ags: gas,sag }  
+ 61779...	{ ivv: viv }  
+ 62053...	{ dorw: drow,word }  
+ 62081...	{ aakkn: kanak }  
+ 62146...	{ aagr: agar,raga }  
+ 62393...	{ esstt: stets }  
+ 62682...	{ epp: pep }  
+ 62698...	{ ilps: pils,slip }  
+ 62848...	{ mrsu: rums,smur }  
+ 63503...	{ effor: offer,reffo }  
+ 64529...	{ dorsw: drows,sword }  
+ 64844...	{ ekoss: sekos,sokes }  
+ 65512...	{ eess: esse,sees }  
+ 65549...	{ eessy: sesey,yeses }  
+ 65647...	{ eeir: eire,erie }  
+ 66176...	{ ademn: deman,named }  
+ 66288...	{ opw: pow,wop }  
+ 66535...	{ girt: girt,trig }  
+ 66779...	{ eentt: tenet }  
+ 66881...	{ eessx: sexes }  
+ 67029...	{ alm: lam,mal }  
+ 67055...	{ adeir: aider,redia }  
+ 67335...	{ rssttu: struts,sturts }  
+ 67386...	{ eeflrt: reflet,telfer }  
+ 67656...	{ dgo: dog,god }  
+ 67919...	{ ikkrs: kirks,skrik }  
+ 68318...	{ deimn: denim,mined }  
+ 68764...	{ opsw: pows,swop }  
+ 68807...	{ deilv: devil,lived }  
+ 68884...	{ anno: anon,nona }  
+ 68903...	{ knstu: knuts,stunk }  
+ 69011...	{ girst: girts,strig }  
+ 69193...	{ egor: ergo,ogre }  
+ 69450...	{ ann: nan }  
+ 70104...	{ nor: nor,ron }  
+ 70896...	{ aailmn: animal,lamina }  
+ 70944...	{ eerrtt: terret }  
+ 71089...	{ f: f }  
+ 71167...	{ adgr: darg,grad }  
+ 71283...	{ deilsv: devils,slived }  
+ 71647...	{ ilms: mils,slim }  
+ 72159...	{ ael: ale,ela }  
+ 72526...	{ deer: deer,reed }  
+ 72967...	{ aamm: maam }  
+ 73012...	{ gnsu: gnus,guns,snug,sung }  
+ 73320...	{ aaw: awa }  
+ 73392...	{ ptu: put,tup }  
+ 73953...	{ bbu: bub }  
+ 74034...	{ afr: far,raf }  
+ 74152...	{ v: v }  
+ 74281...	{ alpp: palp,plap }  
+ 74406...	{ elt: let,tel }  
+ 75002...	{ deers: redes,seder }  
+ 75567...	{ atw: taw,wat }  
+ 75709...	{ adil: dial,laid }  
+ 75924...	{ deeins: denies,seined }  
+ 75939...	{ abo: abo,oba }  
+ 76329...	{ mmoott: motmot,tomtom }  
+ 76505...	{ ab: ab,ba }  
+ 76777...	{ eils: lies,seil }  
+ 77111...	{ aelss: seals,slaes }  
+ 77544...	{ gip: gip,pig }  
+ 77709...	{ itw: tiw,wit }  
+ 78043...	{ astw: staw,swat,taws,wats }  
+ 78081...	{ bio: ibo,obi }  
+ 79135...	{ ekps: keps,spek }  
+ 79237...	{ eeps: pees,seep }  
+ 79493...	{ eilrt: relit,tiler }  
+ 79577...	{ alrsu: larus,sural }  
+ 79850...	{ deopt: depot,toped }  
+ 80166...	{ dpu: dup,pud }  
+ 80169...	{ cit: cit,tic }  
+ 80427...	{ efn: fen,nef }  
+ 80519...	{ asstw: staws,swats }  
+ 80662...	{ bost: bots,stob }  
+ 80970...	{ ewy: wey,yew }  
+ 81123...	{ bis: bis,sib }  
+ 81180...	{ del: del,led }  
+ 81208...	{ acmr: cram,marc }  
+ 81926...	{ aabrs: arbas,sabra }  
+ 82326...	{ deopst: depots,stoped }  
+ 82341...	{ adw: daw,wad }  
+ 82486...	{ eimt: emit,time }  
+ 82717...	{ eelr: leer,reel }  
+ 83024...	{ aakkz: kazak }  
+ 83060...	{ aakky: kayak }  
+ 83219...	{ acrtt: tcart,tract }  
+ 83256...	{ adeipr: diaper,repaid }  
+ 83656...	{ dels: dels,sled }  
+ 83684...	{ acmrs: marcs,scram }  
+ 84351...	{ agm: gam,mag }  
+ 84492...	{ ddeerr: redder }  
+ 84817...	{ mstu: smut,tums }  { adsw: daws,swad }  
+ 84960...	{ bdo: bod,dob }  
+ 84962...	{ eimst: emits,stime }  
+ 85047...	{ adeiln: delian,nailed }  
+ 85193...	{ eelrs: reels,sleer }  
+ 85710...	{ eem: eme }  
+ 87118...	{ adem: edam,made }  
+ 87260...	{ acein: caine,eniac }  
+ 87293...	{ msstu: smuts,stums }  
+ 87598...	{ aksu: auks,skua }  
+ 87840...	{ bnu: bun,nub }  
+ 88186...	{ eems: emes,seme }  
+ 88335...	{ cru: cur,ruc }  
+ 88471...	{ abdr: bard,drab }  
+ 88480...	{ ceir: cire,eric }  
+ 88814...	{ acers: cares,serac }  
+ 88912...	{ agnw: gnaw,wang }  
+ 90316...	{ bnsu: buns,snub }  
+ 90392...	{ an: an,na }  
+ 90613...	{ bdir: bird,drib }  
+ 90662...	{ eemss: seems,smees }  
+ 90738...	{ eek: eke }  
+ 90811...	{ crsu: rucs,scur }  
+ 90836...	{ aelps: elaps,spale }  
+ 90956...	{ ceirs: cires,seric }  
+ 91290...	{ acerss: scares,seracs }  
+ 91388...	{ agnsw: gnaws,swang }  
+ 91478...	{ gu: gu,ug }  
+ 91515...	{ guy: guy,yug }  
+ 91612...	{ r: r }  
+ 91728...	{ egt: get,teg }  
+ 92073...	{ not: not,ton }  
+ 92117...	{ aaann: anana }  
+ 92868...	{ ans: nas,san }  
+ 92962...	{ eepp: peep }  
+ 93128...	{ emrsu: mures,serum }  
+ 93983...	{ noost: snoot,toons }  
+ 94223...	{ abbco: bobac,cabob }  
+ 94549...	{ nost: snot,tons }  
+ 94585...	{ bloo: lobo,obol }  
+ 94603...	{ ggoo: goog }  
+ 94649...	{ sssuu: susus }  
+ 95010...	{ ins: nis,sin }  
+ 95169...	{ ggo: gog }  
+ 95653...	{ addu: daud,duad }  
+ 95672...	{ oorrt: rotor }  
+ 95844...	{ aderrw: drawer,redraw,reward,warder }  
+ 96405...	{ aaklot: atokal,lakota }  
+ 96721...	{ desu: deus,sued }  
+ 96819...	{ aav: ava }  
+ 97442...	{ aabln: alban,nabla }  
+ 98847...	{ dno: don,nod }  
+ 98918...	{ eelpr: leper,repel }  
+ 99594...	{ cep: cep,pec }  
+100202...	{ inrst: snirt,trins }  
+100384...	{ enor: oner,reno }  
+100740...	{ oww: wow }  
+101269...	{ ddee: deed }  
+101323...	{ dnos: dons,snod }  
+101411...	{ ennot: nonet,tenon }  
+101655...	{ abm: bam,mab }  
+101727...	{ nnu: nun }  
+102070...	{ ceps: ceps,spec }  
+102251...	{ almru: larum,mural }  
+102539...	{ acepr: pacer,recap }  
+102860...	{ enors: rones,senor }  
+103771...	{ aeegnss: sagenes,senegas }  
+103887...	{ ennost: sonnet,tennos }  
+103934...	{ dinor: nidor,rodin }  
+104686...	{ eelt: leet,teel }  
+105015...	{ aceprs: recaps,spacer }  
+105336...	{ enorss: serons,snores }  
+105562...	{ eeirrvv: reviver }  
+105722...	{ aadfr: daraf,farad }  
+105805...	{ elux: exul,luxe }  
+105844...	{ adlu: dual,laud }  
+105989...	{ adeil: ailed,delia }  
+106071...	{ aaoorrttv: rotavator }  
+106083...	{ emw: mew,wem }  
+106593...	{ anp: nap,pan }  
+106681...	{ oopr: poor,roop }  
+106939...	{ eekp: keep,peek }  
+107113...	{ gopu: ogpu,upgo }  
+107162...	{ eelst: leets,sleet,steel,teels }  
+107679...	{ gpu: gup,pug }  
+108516...	{ ahh: hah }  
+108559...	{ emsw: smew,wems }  
+108693...	{ egl: gel,leg }  
+108735...	{ inp: nip,pin }  
+108932...	{ efirs: fires,serif }  
+109069...	{ anps: naps,pans,snap,span }  
+109157...	{ ooprs: roops,spoor }  
+109638...	{ eelsst: sleets,steels }  
+109925...	{ ah: ah,ha }  
+109962...	{ ahy: hay,yah }  
+110603...	{ eglos: loges,segol }  
+110948...	{ lnoos: loons,snool }  
+110992...	{ ahhs: hahs,shah }  
+111211...	{ inps: nips,pins,snip,spin }  
+111213...	{ eew: ewe }  
+111258...	{ bsu: bus,sub }  
+111334...	{ a: a }  
+111545...	{ anpss: snaps,spans }  
+111638...	{ aeglr: lager,regal }  
+112438...	{ ahsy: shay,yahs }  
+112473...	{ bgo: bog,gob }  
+112868...	{ addel: dedal,laded }  
+112910...	{ io: io,oi }  
+113468...	{ ahhss: shahs }  
+113476...	{ i: i }  
+113478...	{ izz: ziz }  
+113581...	{ t: t }  
+113687...	{ inpss: snips,spins }  
+113770...	{ eenv: even,neve }  
+113810...	{ as: as,sa }  
+114119...	{ beirt: rebit,tiber }  
+114872...	{ eefrr: refer }  
+115081...	{ acde: dace,ecad }  
+115542...	{ amn: man,nam }  
+115630...	{ moor: moor,room }  
+115806...	{ bde: bed,deb }  
+115952...	{ is: is,si }  
+115984...	{ abgr: brag,garb }  
+116031...	{ alv: lav,val }  
+116196...	{ mor: mor,rom }  
+116246...	{ eensv: neves,seven }  
+116421...	{ air: air,ria }  
+116526...	{ art: rat,tar }  
+116581...	{ j: j }  
+116628...	{ gmu: gum,mug }  
+118018...	{ bknu: bunk,knub }  
+118207...	{ ortt: tort,trot }  
+118380...	{ dho: doh,hod }  
+118428...	{ iss: sis }  
+118533...	{ sst: sts }  
+118897...	{ airs: rias,sair }  
+119002...	{ arst: rats,star }  
+119104...	{ gmsu: gums,smug }  
+119526...	{ ajr: jar,raj }  
+119789...	{ do: do,od }  
+120355...	{ d: d }  
+120483...	{ ehr: her,reh }  
+120586...	{ aoorrtt: rotator }  
+120672...	{ aen: ean,nae }  
+120748...	{ bdru: burd,drub }  
+120856...	{ dhos: dohs,shod }  
+120916...	{ eekk: keek }  
+121039...	{ iirs: iris,siri }  
+121144...	{ irst: rits,stir }  
+121155...	{ aahhww: hawhaw,wahwah }  
+121341...	{ ceerst: secret,terces }  
+121892...	{ er: er,re }  
+122251...	{ knot: knot,tonk }  
+122265...	{ dos: dos,sod }  
+122353...	{ enot: eton,note }  
+122669...	{ nu: nu,un }  
+122919...	{ ent: net,ten }  
+123148...	{ aens: anes,sena }  
+123337...	{ adry: dray,yard }  
+123515...	{ iirss: siris }  
+123802...	{ eors: eros,sore }  
+124727...	{ knost: knots,stonk }  
+124829...	{ enost: notes,seton }  
+125210...	{ adors: doras,sarod }  
+125395...	{ enst: nets,sten }  
+126126...	{ ahp: hap,pah }  
+126245...	{ aadrr: radar }  
+126603...	{ eellss: selles }  
+127572...	{ apy: pay,yap }  
+128994...	{ eorrst: retros,sorter }  
+129211...	{ bboo: boob }  
+129216...	{ opt: pot,top }  
+129693...	{ den: den,ned }  
+129777...	{ bbo: bob }  
+129871...	{ agnr: gnar,rang }  
+129987...	{ eilnsv: levins,snivel }  
+130011...	{ aps: pas,sap }  
+130048...	{ apsy: spay,yaps }  
+130546...	{ l: l }  
+131126...	{ oopst: poots,stoop }  
+131230...	{ eenr: neer,reen }  
+131692...	{ opst: pots,spot,stop,tops }  
+131890...	{ loos: loos,sool }  
+132153...	{ ips: pis,sip }  
+132169...	{ dens: dens,sned }  
+132271...	{ aaln: alan,anal,lana,nala }  
+132432...	{ fgi: fig,gif }  
+132456...	{ los: los,sol }  
+132487...	{ apss: saps,spas }  
+132727...	{ aprt: part,prat,tarp,trap }  
+133528...	{ alry: aryl,lyra }  
+133696...	{ abtu: abut,tuba }  
+133706...	{ eenrs: reens,sneer }  
+134058...	{ aallmm: mallam }  
+134168...	{ opsst: spots,stops }  
+134366...	{ looss: solos }  
+134712...	{ eev: eve }  
+135203...	{ aprst: parts,spart,sprat,strap,tarps,traps }  
+135683...	{ acmsu: camus,sumac }  
+135990...	{ dop: dop,pod }  
+136143...	{ aai: aia }  
+136484...	{ am: am,ma }  
+136521...	{ amy: may,yam }  
+137345...	{ iprst: spirt,trips }  
+137599...	{ moot: moot,toom }  
+137679...	{ aprsst: sparts,straps }  
+138093...	{ epr: per,rep }  
+138165...	{ mot: mot,tom }  
+138394...	{ amos: amos,soma }  
+138495...	{ att: tat }  
+138596...	{ adesv: devas,saved }  
+138626...	{ im: im,mi }  
+138960...	{ ams: mas,sam }  
+139247...	{ aknps: knaps,spank }  
+139318...	{ elno: leon,noel }  
+139821...	{ iprsst: spirts,sprits,stirps,strips }  
+140075...	{ moost: smoot,tooms }  
+140277...	{ deostv: devots,stoved }  
+140637...	{ itt: tit }  
+140793...	{ hhu: huh }  
+140866...	{ aist: itas,sati }  
+140870...	{ amoss: samos,somas }  
+141102...	{ ims: mis,sim }  
+141380...	{ dloor: drool,loord }  
+141495...	{ ajt: jat,taj }  
+141543...	{ ttttuu: tuttut }  
+141549...	{ aky: kay,yak }  
+141571...	{ aimr: amir,rima }  
+141614...	{ ae: ae,ea }  
+141676...	{ amrt: mart,tram }  
+143022...	{ aad: ada }  
+143611...	{ u: u }  
+143736...	{ app: pap }  
+144047...	{ aimrs: ramis,simar }  
+144090...	{ aes: eas,sae }  
+144152...	{ amrst: smart,trams }  
+144159...	{ cor: cor,roc }  
+144254...	{ bertu: rebut,tuber }  
+144373...	{ dmoo: doom,mood }  
+144457...	{ aakr: arak,kara }  
+144939...	{ dmo: dom,mod }  
+145615...	{ loop: loop,pool }  
+145878...	{ ipp: pip }  
+146092...	{ eeemmss: sememes }  
+146337...	{ est: set,tes }  
+146801...	{ eellm: lemel }  
+147411...	{ dit: dit,tid }  
+147868...	{ g: g }  
+148091...	{ loops: loops,pools,sloop,spool }  
+148261...	{ bgru: burg,grub }  
+148453...	{ eilv: evil,live }  
+148563...	{ ssu: sus }  
+148936...	{ fglo: flog,golf }  
+149042...	{ aesss: asses,sessa }  
+149282...	{ aerst: resat,taser }  
+150567...	{ loopss: sloops,spools }  
+150813...	{ agr: gar,rag }  
+150929...	{ eilsv: evils,slive }  
+150939...	{ deeglr: gelder,redleg }  
+151508...	{ arssu: sarus,suras }  
+151840...	{ agnt: gnat,tang }  
+151922...	{ ddeew: dewed }  
+152043...	{ add: dad }  
+152069...	{ aagns: nagas,sagan }  
+152172...	{ eer: eer,ere,ree }  
+152269...	{ defl: delf,fled }  
+152685...	{ amp: map,pam }  
+153010...	{ aabb: abba }  
+153148...	{ desy: deys,syed }  
+153199...	{ eent: eten,nete }  
+153213...	{ aal: ala }  
+154185...	{ ddi: did }  
+154316...	{ agnst: gnats,stang }  
+154514...	{ eegsu: euges,segue }  
+154564...	{ lmoo: loom,mool }  
+154648...	{ eers: rees,seer }  
+155161...	{ amps: maps,spam }  
+156762...	{ aaaallmmy: malayalam }  
+156869...	{ eelrv: lever,revel }  
+156985...	{ nnoo: noon }  
+157040...	{ lmoos: mools,sloom }  
+157124...	{ eerss: seres }  
+157551...	{ nno: non }  
+157602...	{ ilt: lit,til }  
+157831...	{ ails: lias,sail }  
+159616...	{ aannruu: nauruan }  
+159849...	{ puy: puy,yup }  
+160078...	{ ilst: slit,tils }  
+160827...	{ elz: lez,zel }  
+161634...	{ amm: mam }  
+161873...	{ eettv: tevet }  
+161956...	{ eeilrrv: reliver,reviler }  
+161987...	{ aw: aw,wa }  
+162024...	{ awy: way,yaw }  
+162135...	{ for: fro,orf }  
+162234...	{ adl: dal,lad }  
+162288...	{ psu: pus,sup }  
+162331...	{ ikps: kips,spik }  
+162538...	{ epst: pets,step }  
+163197...	{ bho: boh,hob }  
+163302...	{ els: les,sel }  
+163668...	{ otw: tow,wot }  
+163771...	{ aelr: laer,real }  
+163776...	{ imm: mim }  
+163978...	{ anov: avon,nova }  
+164463...	{ asw: saw,was }  
+164500...	{ aswy: sway,yaws }  
+164606...	{ bo: bo,ob }  
+164643...	{ boy: boy,yob }  
+164807...	{ ikpss: skips,spiks }  
+164886...	{ eloort: looter,retool }  
+165060...	{ deeinr: denier,reined }  
+165172...	{ b: b }  
+165630...	{ guv: guv,vug }  
+165913...	{ eilr: leir,riel }  
+166144...	{ ostw: stow,swot,tows,wots }  
+166247...	{ aelrs: lares,seral }  
+166662...	{ akm: kam,mak }  
+166786...	{ ccee: ecce }  
+167082...	{ bos: bos,sob }  
+167321...	{ adilr: drail,liard }  
+168117...	{ abr: arb,bra }  
+168133...	{ aemx: amex,xema }  
+168620...	{ osstw: stows,swots }  
+168761...	{ mu: mu,um }  
+168775...	{ aett: etat,tate }  
+169655...	{ arstw: straw,warts }  
+170535...	{ aag: aga }  
+170566...	{ deefiir: deifier,reified }  
+170772...	{ ttu: tut }  
+171864...	{ abcder: braced,decarb }  
+172782...	{ agt: gat,tag }  
+172902...	{ cdo: cod,doc }  
+172997...	{ bdetu: debut,tubed }  
+173011...	{ aags: agas,saga }  
+173613...	{ eflorw: reflow,wolfer }  
+173842...	{ bkno: bonk,knob }  
+173953...	{ adrw: draw,ward }  
+174098...	{ eimrt: remit,timer }  
+174399...	{ deiprs: redips,spider }  
+174510...	{ ben: ben,neb }  
+174924...	{ git: git,tig }  
+175219...	{ demo: edom,mode }  
+175258...	{ agst: gats,stag }  
+175487...	{ aagss: sagas }  
+175963...	{ agmr: gram,marg }  
+176013...	{ ppu: pup }  
+176102...	{ aeemn: amene,enema }  
+176368...	{ esuz: suez,zeus }  
+176429...	{ adrsw: draws,sward }  
+176986...	{ bens: bens,sneb }  
+177084...	{ hno: hon,noh }  
+177691...	{ deit: edit,tide }  
+177966...	{ aahhnn: hannah }  
+178188...	{ apw: paw,wap }  
+178363...	{ aalm: alma,amla }  
+178493...	{ no: no,on }  
+178530...	{ noy: noy,yon }  
+179059...	{ n: n }  
+179556...	{ adg: dag,gad }  
+180664...	{ apsw: paws,swap }  
+180714...	{ llppuu: pullup }  
+180784...	{ aann: anan,anna,naan,nana }  
+180969...	{ nos: nos,son }  
+181698...	{ dgi: dig,gid }  
+181790...	{ egmno: emong,gnome }  
+183090...	{ gru: gur,rug }  
+183391...	{ dees: dees,seed }  
+183580...	{ inor: iron,nori }  
+184320...	{ ddu: dud }  
+184465...	{ ddei: deid,died }  
+184826...	{ eekrs: reeks,skeer }  
+185740...	{ aelt: leat,tael }  
+185976...	{ elm: lem,mel }  
+186161...	{ norst: snort,trons }  
+187316...	{ eilot: eliot,toile }  
+187519...	{ aeepprr: repaper }  
+187839...	{ aab: aba }  
+189597...	{ acm: cam,mac }  
+189613...	{ amsw: maws,swam }  
+189628...	{ q: q }  
+189747...	{ agl: gal,lag }  
+190086...	{ abt: bat,tab }  
+190315...	{ aabs: abas,saba }  
+190692...	{ aelsst: salets,stelas }  
+190699...	{ deeilrv: deliver,reviled }  
+190903...	{ bbee: beeb }  
+191059...	{ deersst: dessert,tressed }  
+191106...	{ eel: eel,lee }  
+191889...	{ gil: gil,lig }  
+192073...	{ acms: macs,scam }  
+192223...	{ agls: gals,slag }  
+192228...	{ bit: bit,tib }  
+192562...	{ abst: bats,stab }  
+193322...	{ aadmm: madam }  
+193535...	{ deerssst: desserts,stressed }  
+193582...	{ eels: eels,lees,seel,slee }  
+193911...	{ mmu: mum }  
+194128...	{ noop: noop,poon }  
+194514...	{ etw: tew,wet }  
+194656...	{ deil: deil,lied }  
+194824...	{ aenv: evan,nave }  
+195803...	{ eellv: level }  
+196499...	{ aaikk: kaiak }  
+196604...	{ noops: noops,poons,snoop,spoon }  
+196617...	{ hho: hoh }  
+196860...	{ abd: bad,dab }  
+196990...	{ estw: stew,wets }  
+197116...	{ deep: deep,peed }  
+197132...	{ deils: delis,siled }  
+197460...	{ hoo: hoo,oho,ooh }  
+198026...	{ ho: ho,oh }  
+198295...	{ abkr: bark,krab }  
+198399...	{ ccssuu: succus }  
+198592...	{ h: h }  
+198869...	{ oo: oo }  
+199002...	{ bdi: bid,dib }  
+199080...	{ noopss: snoops,spoons }  
+199291...	{ eemt: meet,teem }  
+199309...	{ ddeefii: deified }  
+199435...	{ o: o }  
+199436...	{ oz: oz,zo }  
+199472...	{ oy: oy,yo }  
+199592...	{ deeps: deeps,speed }  
+199936...	{ hoos: ohos,oohs,shoo,soho }  
+Number of words = 1439	tableSize = 200001
