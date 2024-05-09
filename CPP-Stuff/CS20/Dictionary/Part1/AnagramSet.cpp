@@ -1,5 +1,16 @@
 #include "AnagramSet.h"
 
+ostream& operator<<(ostream& out, const AnagramSet& s) {
+    out << "{ " << s.key.toString() << ":";
+    for(int i = 0; i < s.words.size(); i++) {
+        out << " " << s.words[i];
+        if(i != s.words.size() - 1) out << ",";
+    }
+    out << " }";
+
+    return out;
+}
+
 AnagramSet::AnagramSet(const LetterBag& theKey) {
     key = theKey;
     next = nullptr;
