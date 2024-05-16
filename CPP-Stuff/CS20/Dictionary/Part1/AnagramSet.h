@@ -7,11 +7,12 @@ class AnagramSet {
     friend ostream& operator<<(ostream& out, const AnagramSet& s);
     
     private:
-    LetterBag key;
     vector<string> words;
-    AnagramSet *next;
 
     public:
+    LetterBag key;
+    AnagramSet *next;
+
     AnagramSet(const LetterBag& theKey);        //: key(theKey)
     void insert(const string& s);               // insert s into the words vector in sorted order. Don't insert if it's already there.
     void remove(const string& s);               // remove s from the words vector, if it's there. Otherwise do nothing.
