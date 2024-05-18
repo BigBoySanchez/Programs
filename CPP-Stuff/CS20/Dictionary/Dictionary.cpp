@@ -118,3 +118,17 @@ int Dictionary::insertWords(const vector<string> & v) {
     for(int i = 0; i < v.size(); i++) numInserted += insertWord(v[i]);
     return numInserted;
 }
+
+bool Dictionary::removeWord(string & w) {
+    //get set w/ key = to stringToBag
+    LetterBag stringToBag(w);
+    int index = AnagramSet(stringToBag).hashKey(tableSize);
+    AnagramSet * set = find(hashTable[index], stringToBag);
+    if(!set) return false;
+
+    //try to remove word from set
+    int ogSize = set->getSize();
+    set->remove(w);
+    numWords += set->getSize() - ogSize;
+    return set->getSize() != ogSize;
+}

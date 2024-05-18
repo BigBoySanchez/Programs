@@ -43,8 +43,8 @@ class Dictionary {
     bool insertWord(const string &w);  // insert a word, return true if wasn’t already there, false if already there.
     int insertWords(const vector<string> & v);  // insert multiple words and return how many weren’t already there. 
 
-    bool removeWord(string w) ;  // remove the word. Return true if it was there to be removed and false otherwise.
-    bool contains(string word) const ;
+    bool removeWord(string& w) ;  // remove the word. Return true if it was there to be removed and false otherwise.
+    bool contains(string& word) const ;
 
     vector<string> getWords(const string & word) const ;  // return words that are anagrams for the given word.
     int getNumAnagrams(const string & word) const;  // return number of anagrammatic forms found for the given word.
