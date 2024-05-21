@@ -44,7 +44,7 @@ int main() {
 	cout << "Done reading words, elapsed time = " << getTime() << endl << endl;
 	
 	resetTimer();
-	Dictionary d(words, numWords, tableSize );
+	Dictionary d(words, numWords);
 	cout << "Done creating dictionary, elapsed time = " << getTime() << endl;
 	countHits(words,numWords,d);
 
@@ -54,7 +54,7 @@ int main() {
 	unScramble(d);
 	resetTimer();
 	for (int i = 0, count = 0; count  <= numWords/2; i =  (i+ 30011)% numWords, count++) 
-		d.remove(words[i]);
+		d.removeWord(words[i]);
 	cout << "Done removing half the words, elapsed time = " << getTime() << endl << endl;
 	unScramble(d);
 	resetTimer();
@@ -103,7 +103,7 @@ void countHits (string wordList[], int length,  Dictionary & d) {
 void toFile(const Dictionary & d, const string & fileName) {
 	ofstream out;
 	out.open(fileName.c_str());
-	out << d << endl;
+	d.printDictionary(d.tableSize, out);
 	out.close();
 }
 
@@ -113,8 +113,8 @@ void countAnagrams(Dictionary & d, int howMany, string wordList[], int length) {
     resetTimer();
     int sum = 0;
     for (int i = 0; i < length; i++) {
-        AnagramSet  a = d.getSet(wordList[i]);
-        if (a.getSize() == howMany)
+        vector<string> v = d.getWords(wordList[i]);
+        if (v.size() == howMany)
             sum++;
     }
     cout << "Found " << setw(5) << sum
@@ -130,11 +130,15 @@ void unScramble(Dictionary & d) {
 		cout << "Enter an anagram or . to quit: ";
 		cin >> s;
 		if (s != ".") {
-			AnagramSet  a = d.getSet(s);
-			if (a.isEmpty())
+			vector<string>  v = d.getWords(s);
+			if (v.empty())
 				cout << "Not found " << endl;
-			else
-				cout << "Found it: " << a << endl;
+			else {
+				cout << "Found it: ";
+				for (int i = 0; i < v.size(); i++) cout << v[i] << " ";
+				cout << endl;
+			}
+
 		}
 	} while (s != ".");
 }

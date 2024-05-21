@@ -17,7 +17,7 @@ int main() {
     cin >> fileName;
     Dictionary d(fileName);
     cout << "Here is the dictionary..." << endl;
-    d.printDictionary(500,true);
+    d.printDictionary(500);
     bool done = false;
     while (!done) {
         string s;
@@ -50,7 +50,7 @@ int main() {
         } while (s != "q");
         cout << removeCount <<  (removeCount == 1 ? " word was" : " words were") << " removed. " << endl;
         cout << "The new dictionary is..." << endl;
-        d.printDictionary(500,true);
+        d.printDictionary(500);
         cout << "Continue? ";
         cin >> response;
         if (response != 'y') done = true;

@@ -1,12 +1,13 @@
 #ifndef DICTIONARY_H
 #define DICTIONARY_H
 
-#include "Part1/AnagramSet.h"
+#include "AnagramSet.h"
 #include <fstream>
+#include <iomanip>
 
 class Dictionary {
     public:
-    static const int tableSize = 500001;
+    static const int tableSize = 200001;
 
     private:
     AnagramSet* hashTable[tableSize] = { nullptr };             // an array of AnagramSet chains.

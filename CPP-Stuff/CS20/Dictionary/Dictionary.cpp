@@ -63,7 +63,7 @@ Dictionary::Dictionary(const Dictionary & d) {
         AnagramSet * thisCurr = hashTable[i], * dCurr = d.hashTable[i]->next;
 
         while(dCurr) {
-            thisCurr->next = new AnagramSet(d.hashTable[i]->key);
+            thisCurr->next = new AnagramSet(dCurr->key);
 
             thisCurr = thisCurr->next;
             dCurr = dCurr->next;
@@ -97,9 +97,10 @@ void Dictionary::clear() {
 }
 
 bool Dictionary::insertWord(const string &w) {
-    LetterBag stringToBag(w);
-    int keyHash = AnagramSet(stringToBag).hashKey(tableSize);
-    AnagramSet * set = find(hashTable[keyHash], stringToBag);
+    //make sure w is a word
+    if(!isalnum(w[0])) return false;
+
+    AnagramSet * set = findWord(w);
 
     if(set) {
         int ogSize = set->getSize();
@@ -107,7 +108,10 @@ bool Dictionary::insertWord(const string &w) {
         numWords += set->getSize() - ogSize;
         return set->getSize() != ogSize;
     } else {
-        insertNew(keyHash, new AnagramSet(stringToBag));
+        AnagramSet * toInsert = new AnagramSet(LetterBag(w));
+        toInsert->insert(w);
+        if(!toInsert) throw "Could not make new Anagramset.\n";
+        insertNew(toInsert->hashKey(tableSize), toInsert);
         numWords++;
         return true;
     }
@@ -123,12 +127,70 @@ bool Dictionary::removeWord(string & w) {
     //get set w/ key = to stringToBag
     LetterBag stringToBag(w);
     int index = AnagramSet(stringToBag).hashKey(tableSize);
-    AnagramSet * set = find(hashTable[index], stringToBag);
-    if(!set) return false;
+    AnagramSet * head = hashTable[index];
+    AnagramSet * prevSet = findPrevious(head, stringToBag);
+    if(!prevSet && (!head || head->key != stringToBag)) return false;
 
-    //try to remove word from set
-    int ogSize = set->getSize();
-    set->remove(w);
-    numWords += set->getSize() - ogSize;
-    return set->getSize() != ogSize;
+    int ogWords = numWords;
+    if(head->key == stringToBag) {
+        numWords -= head->getSize();
+        head->remove(w);
+        numWords += head->getSize();
+
+        //remove head if empty
+        if(!head->getSize()) {
+            delete head;
+            hashTable[index] = nullptr;
+        }
+    } else {
+        numWords -= prevSet->next->getSize();
+        prevSet->next->remove(w);
+        numWords += prevSet->next->getSize();
+
+        //remove next set if empty
+        if(!prevSet->next->getSize()) {
+            AnagramSet * toDelete = prevSet->next;
+            prevSet->next = toDelete->next;
+
+            delete toDelete;
+        }   
+    }
+
+    return ogWords != numWords;
+}
+
+bool Dictionary::contains(string & word) const {
+    LetterBag stringToBag(word);
+    int index = AnagramSet(stringToBag).hashKey(tableSize);
+
+    //needs this bc there's another find
+    return this->find(hashTable[index], stringToBag);
+}
+
+vector<string> Dictionary::getWords(const string & word) const {
+    AnagramSet * set = findWord(word);
+    return (set)? set->getWords() : vector<string>();
+}
+
+int Dictionary::getNumAnagrams(const string & word) const {
+    LetterBag stringToBag(word);
+    int index = AnagramSet(stringToBag).hashKey(tableSize);
+
+    return this->find(hashTable[index], stringToBag)->getSize();
+}
+
+void Dictionary::printDictionary(int limit, ostream & out) const {
+    for(int i = 0, numPrinted = 0; numPrinted < limit && i < tableSize; i++) {
+        AnagramSet * curr = hashTable[i];
+        if(!curr) continue;
+        
+        out << setw(6) << i << "..." << setw(9);
+        while(curr->next) {
+            out << *curr << "  ";
+            numPrinted++;
+            curr = curr->next;
+        }
+        out << *curr << "\n";
+        numPrinted++;
+    }
 }
