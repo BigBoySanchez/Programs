@@ -1,0 +1,27 @@
+TO PARSE GRID:
+- use recursion algo
+- check if each adj tile is in map
+
+TO GET INPUT:
+- get letters row-by-row
+- make sure input is right?
+- FUTURE: use camera to take pic of grid
+
+WHEN DONE:
+1. display starting coord (1-indexed)
+2. use L, R, U, B / combination of 2 to signal left, right, upper, bottom
+3. -> "Resulting word"
+4. press enter to get next word (one word at a time)
+NOTE: sort words by word length (hi -> lo) using heapsort
+
+STUDYING:
+hashmaps
+heapsort
+bst's (a lil)
+linked lists
+
+NEEDS:
+sorting algo from lab 3-28
+stack
+queue
+templates
