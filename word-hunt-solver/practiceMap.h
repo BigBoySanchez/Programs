@@ -1,43 +1,52 @@
-#include <iostream>
-#include <fstream>
-#include <iomanip>
+#ifndef PRACTICE_MAP_H
+#define PRACTICE_MAP_H
 
-using namespace std;
-    
-template <typename keyType, typename valType>
+#include <string>
+#include <iostream>
+#include <iomanip>
+#include <stdexcept>
+
+#define EXP 15
+
+template <typename k, typename v>
+class node {
+    public:
+    k key;
+    v val;
+    node *next;
+
+    node(const k& key = k(), const v& val = v(), node *next = nullptr) {
+        this->key = key;
+        this->val = val;
+        this->next = next;
+    }
+};
+
+template <typename k>
+unsigned int getHash(const k& key, unsigned int tableSize);
+
+template <>
+unsigned int getHash(const std::string& key, unsigned int tableSize);
+
+
+template <typename k, typename v>
 class practiceMap {
     private:
-    static const unsigned int TABLE_SIZE = 10000;
-    typedef struct node {
-        keyType key;
-        valType val; 
-        node * next;
-    }node;
-    node * buckets[TABLE_SIZE] = { nullptr };
-
-    //find the node with key (LOW PRIORITY)
-    //node * findNode(const keyType & key) const;
+    static constexpr unsigned int TABLE_SIZE = 1 << EXP;
+    node<k, v> *buckets[TABLE_SIZE] = { nullptr };
 
     public:
-    
-    //makes empty map
-    //practiceMap();
+    size_t size = 0;
 
-    //deletes all nodes in each bucket
     ~practiceMap();
 
-    //return hash for key
-    unsigned int getHash(const keyType & toHash) const;
+    v& operator[](const k& key);
 
-    //return hash for a string
-    unsigned int getHash(const string & toHash) const;
+    void print() const;
 
-    //deletes all nodes in each bucket
-    void clear();
-
-    //index into map using key
-    valType & operator[](const keyType & key);
-
-    //prints map like: "bucketNum:   {key1, val1}, {key2, val2}\n..."
-    friend ostream & operator<<(ostream & out, const practiceMap<keyType, valType> & toPrint);
+    double getLoadFactor() const;
 };
+
+#undef EXP
+
+#endif

@@ -1,71 +1,85 @@
 #include "practiceMap.h"
 
-template <typename keyType, typename valType>
-ostream & operator<<(ostream & out, const practiceMap<keyType, valType> & toPrint) {
-    for(int i = 0; i < toPrint.TABLE_SIZE; i++) {
-        practiceMap<keyType, valType>::node * curr = toPrint.buckets[i];
-        if(curr == nullptr) continue;
-
-        out << setw(7) << i << ":" << setw(11);
-        while(curr != nullptr) {
-            out << "{" << curr->key << ", " << curr->val << "}";
-            if(curr->next != nullptr) out << ", "; 
-        }
-        out << "\n";
-    }
+template <typename k>
+unsigned int getHash(const k& toHash, unsigned int tableSize) {
+    return (toHash & INT_MIN) % tableSize;
 }
 
-template <typename keyType, typename valType>
-practiceMap<keyType, valType>::~practiceMap() {
-    clear();
-}
-
-template <typename keyType, typename valType>
-unsigned int practiceMap<keyType,valType>::getHash(const keyType & toHash) const {
-    unsigned int hash = toHash & UINT_MAX;
-    return hash % TABLE_SIZE;
-}
-
-template <typename keyType, typename valType>
-unsigned int practiceMap<keyType, valType>::getHash(const string & toHash) const {
+template<>
+unsigned int getHash(const std::string& key, unsigned int tableSize) {
     unsigned int hash = 0;
     const unsigned char BASE = 31;
     unsigned int currPow = 1;
 
-    for(int i = 0; i < toHash.length(); i++) {
-        hash = (hash + ((toHash[i] - 'a' + 1) * currPow)) % UINT_MAX;
-        currPow = (currPow * BASE) % UINT_MAX;
+    for(char c : key) {
+        char cl = tolower(c);
+        hash = (hash + (currPow * (cl - 'a' + 1))) % tableSize;
+        currPow = (currPow * BASE) % tableSize;
     }
 
     return hash;
 }
 
-template <typename keyType, typename valType>
-void practiceMap<keyType, valType>::clear() {
-    for(int i = 0; i < TABLE_SIZE; i++) {
-        practiceMap<keyType, valType>::node * curr = buckets[i];
+template <typename k, typename v>
+practiceMap<k, v>::~practiceMap() {
+    for(unsigned int i = 0; i < TABLE_SIZE; i++) {
+        node<k, v> *curr = buckets[i];
         if(curr == nullptr) continue;
 
-        while(curr != nullptr) {
-            practiceMap<keyType, valType>::node * toDelete = curr;
+        while(curr->next) {
+            node<k, v> *toDelete = curr;
             curr = curr->next;
+
             delete toDelete;
         }
-        buckets[i] = nullptr;
     }
 }
 
-template <typename keyType, typename valType>
-valType & practiceMap<keyType, valType>::operator[](const keyType & key) {
-    unsigned int index = getHash(key);
+template <typename k, typename v>
+v& practiceMap<k, v>::operator[](const k& key) {
+    unsigned int index = getHash(key, TABLE_SIZE);
+    node<k, v> *curr = buckets[index];
 
-    if(buckets[index] == nullptr) {
-        buckets[index] = new practiceMap<keyType,valType>::node;
-        if(buckets[index] == nullptr) throw "ERROR: Could not make new node.\n";
-        
-        buckets[index] = {key, valType(), nullptr};
+    if(curr == nullptr) {
+        buckets[index] = new node<k, v>(key);
+        if(buckets[index] == nullptr) throw std::runtime_error("Could not make node.\n");
+
+        size++;
         return buckets[index]->val;
     }
-    
-    //WIP return for existing key/bucket
+
+    while(curr->next != nullptr && curr->next->key != key) curr = curr->next;
+    if(curr->key != key && curr->next == nullptr)  {
+        curr->next = new node<k, v>(key);
+        if(curr->next == nullptr) throw std::runtime_error("Could not make node.\n");
+
+        curr = curr->next;
+        size++;
+    }
+
+    if(getLoadFactor() > 1.0) throw std::runtime_error("Load factor too high.\n");
+
+    return curr->val;
 }
+
+template <typename k, typename v>
+void practiceMap<k, v>::print() const {
+    for(unsigned int i = 0; i < TABLE_SIZE; i++) {
+        node<k, v> *curr = buckets[i];
+        if(curr == nullptr) continue;
+
+        std::cout << std::setw(7) << i << ": " << "{" << curr->key << ", " << curr->val << "}";
+        while(curr->next) {
+            std::cout << ", " << "{" << curr->next->key << ", " << curr->next->val << "}";
+            curr = curr->next;
+        }
+        std::cout << "\n";
+    }
+}
+
+template <typename k, typename v>
+double practiceMap<k, v>::getLoadFactor() const {
+    return (double)(size / TABLE_SIZE);
+}
+
+template class practiceMap<std::string, bool>;
