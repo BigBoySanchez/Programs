@@ -5,60 +5,60 @@
 #include <fstream> //ifstream
 #include <iomanip> //fixed, setprecision
 
-//check if string is a valid int. if it is, its put in result
-bool checkStr(const std::string& str, int& result) {
-    result = 0;
+//check if string is a valid int. if it is, returns the int.
+//throw error containing str if invalid
+int checkStr(const std::string& str) {
+    int result = 0;
 
     for(char c : str) {
-        if(!isdigit(c)) return false;
+        if(!isdigit(c)) throw str;
 
         result *= 10;
         result += (c - '0');
     }
 
-    return true;
+    return result;
 }
 
-int main() {
+int main(int argc, char *argv[]) {
     std::ifstream fin;
+    std::string filename = "";
     int sum1 = 0, numGood1 = 0, max2 = INT_MIN, numRows = 0;
     std::string invalids = "";
     
     //open file
-    while(true) {
-        std::string filename = "";
-        std::cout << "Enter file name: ";
+    if(argc > 1) filename = argv[1];
+    fin.open(filename);
+    
+    while(!fin.is_open()) {
+        std::cout << "ERROR: Could not open \'" << filename << "\'.\nTry again: ";
         std::cin >> filename;
 
         fin.open(filename);
-
-        if(fin.is_open()) break;
-        else std::cout << "ERROR: Could not open file.\n";
     }
 
     //parse file
     while(!fin.eof()) {
         std::string currStr = "";
-        int currNum = 0;
         
         //column 1
         std::getline(fin, currStr, ',');
-        if(!checkStr(currStr, currNum)) {
-            if(!invalids.empty()) invalids += ", ";
-            invalids += currStr;
-        } else {
-            sum1 += currNum;
+        try {
+            sum1 += checkStr(currStr);
             numGood1++;
+        } catch(const std::string& evilStr) {
+            if(!invalids.empty()) invalids += ", ";
+            invalids += evilStr;
         }
 
         //column 2
         std::getline(fin, currStr, '\n');
         if(currStr.back() == '\r') currStr.pop_back(); //grrr...
-        if(!checkStr(currStr, currNum)) {
+        try {
+            max2 = std::max(max2, checkStr(currStr));
+        } catch(const std::string& evilStr) {
             if(!invalids.empty()) invalids += ", ";
-            invalids += currStr;
-        } else {
-            max2 = std::max(max2, currNum);
+            invalids += evilStr;
         }
 
         numRows++;
