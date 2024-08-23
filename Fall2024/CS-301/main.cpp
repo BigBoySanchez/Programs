@@ -28,6 +28,10 @@ int main(int argc, char* argv[]) {
 
     // open file
     if (argc > 1) filename = argv[1];
+    else {
+        std::cout << "Enter the file to open: ";
+        std::cin >> filename;
+    }
     fin.open(filename);
 
     while (!fin.is_open()) {
