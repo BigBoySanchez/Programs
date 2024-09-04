@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -12,14 +13,17 @@ typedef enum LetterGrade {
     F = 0
 } LetterGrade;
 
-//vec must be castable into a double*
-double getArrayAverage(void *vec, const int32_t size) {
+void stdinIgnore() {
+    while(getchar() != '\n');
+}
+
+double getArrayAverage(int32_t *vec, const int32_t size) {
     double sum = 0;
     for(int32_t i = 0; i < size; ++i) {
-        sum += *(double *)(vec);
+        sum += vec[i];
     }
-    
-    const double avg = sum / size;
+
+    double avg = sum / size;
     return avg;
 }
 
@@ -60,61 +64,70 @@ LetterGrade getLetterGradeFromAverage(const double avg) {
 }
 
 int main() {
-    //WIP: stack alloc?
-    //scanf w/ buf_size?
-    char *firstName[BUF_SIZE];
+    char firstName[BUF_SIZE];
     printf("Please enter your first name: ");
     fgets(firstName, BUF_SIZE, stdin);
+    sscanf(firstName, "%s", firstName);
 
-    char *lastName[BUF_SIZE];
+    char lastName[BUF_SIZE];
     printf("Please enter your last name: ");
     fgets(lastName, BUF_SIZE, stdin);
+    sscanf(lastName, "%s", lastName);
 
     int32_t numPrevCourses;
     printf("Enter number of previous courses: ");
     scanf("%d", &numPrevCourses);
-    //fflush(stdin);
+    stdinIgnore();
 
     LetterGrade *prevGrades = malloc(sizeof(LetterGrade) * numPrevCourses);
     for (int32_t courseIx = 0; courseIx < numPrevCourses; ++courseIx) {
         printf("Enter letter grade for course %d: ", courseIx);
         char letterGrade;
         scanf("%c", &letterGrade);
-        //fflush(stdin);
+        stdinIgnore();
 
-        convertCharToLetterGrade(letterGrade);
+        convertCharToLetterGrade(&letterGrade);
         prevGrades[courseIx] = (LetterGrade)(letterGrade);
     }
     
     int32_t numExams;
     printf("Enter number of exams this semester: ");
     scanf("%d", &numExams);
-    //fflush(stdin);
+    stdinIgnore();
 
     int32_t *examGrades = malloc(sizeof(int32_t) * numExams);
     for(int32_t examIx = 0; examIx < numExams; ++examIx) {
         printf("Enter grade for exam %d as an integer: ", examIx);
         scanf("%d", &examGrades[examIx]);
-        //fflush(stdin);
-
-        //WIP: make const?
-        //const auto fullName = firstName + " " + lastName;
-        char *fullName[BUF_SIZE];
-        int32_t remaining = BUF_SIZE - 1;
-
-        strncat(fullName, firstName, remaining);
-        remaining -= strlen(firstName);
-        if(remaining > 0) {
-            fullName[BUF_SIZE - 1 - remaining] = ' ';
-            remaining--;
-            fullName[BUF_SIZE - 1 - remaining] = '\0';
-        }
-        strncat(fullName, lastName, remaining);
-
-        printf("Grade Report For %s:\n");    //cout << "Grade Report For " << fullName << ":\n";
-        const double examAverage = getArrayAverage(examGrades, numExams);
-        printf("Your exam average is: %lf\n");    //cout << "Your exam average is: " << examAverage << "\n";
+        stdinIgnore();
     }
+
+    //const auto fullName = firstName + " " + lastName;
+    char fullName[BUF_SIZE];
+    int32_t remaining = BUF_SIZE - 1;
+
+    strncat(fullName, firstName, remaining);
+    remaining -= strlen(firstName);
+    if(remaining > 0) {
+        fullName[BUF_SIZE - 1 - remaining] = ' ';
+        remaining--;
+        fullName[BUF_SIZE - 1 - remaining] = '\0';
+    }
+    strncat(fullName, lastName, remaining);
+
+    printf("Grade Report For %s:\n", fullName);
+    double examAverage = getArrayAverage(examGrades, numExams);
+    printf("Your exam average is: %lf\n", examAverage);
+
+    // get GPA with newest course added:
+    LetterGrade newLetterGrade = getLetterGradeFromAverage(examAverage);
+    prevGrades = realloc(prevGrades, sizeof(LetterGrade) * (++numPrevCourses));
+    prevGrades[numPrevCourses - 1] = newLetterGrade;
+    double gpa = getArrayAverage(prevGrades, numPrevCourses);
+    printf("Your latest GPA is: %lf\n", gpa);
+
+    free(prevGrades);
+    free(examGrades);
 
     return 0;
 }
