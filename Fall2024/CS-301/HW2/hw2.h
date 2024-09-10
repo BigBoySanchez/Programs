@@ -1,6 +1,7 @@
 class ItemType {
 public:
     ItemType(int number = 0);
+    int getValue() const;
 private:
     int value;
 };
