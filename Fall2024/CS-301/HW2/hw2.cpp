@@ -3,9 +3,12 @@
 //Email: jativo@horizon.csueastbay.edu
 
 #include "./hw2.h"
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <string>
+#include <stdexcept>
 
 ItemType::ItemType(int number) {
     value = number;
@@ -26,7 +29,10 @@ UnsortedType::~UnsortedType() {
 }
 
 void UnsortedType::putItem(ItemType toAdd) {
-    if(!head) head = new NodeType{toAdd, nullptr};
+    if(!head) {
+        head = new NodeType{toAdd, nullptr};
+        return;
+    }
     
     NodeType *curr = head;
     while(curr->next) {
@@ -44,6 +50,7 @@ void UnsortedType::putItem(ItemType toAdd, int position) {
     NodeType *curr = head;
     int i = 1;
     while(i < position && curr->next) {    //Get curr to node before position
+        curr = curr->next;
         i++;
     }
     if(i == position) curr->next = new NodeType{toAdd, curr->next};
@@ -87,6 +94,7 @@ NodeType* UnsortedType::getHead() const {
 
 int main(int argc, char *argv[]) {
     // WIP declarations
+    if(argc < 2) throw std::runtime_error("ERROR: No file given.\n");
     std::ifstream fin(argv[1]);
     std::stringstream sstream;
     std::string currLine = "";
@@ -115,6 +123,32 @@ int main(int argc, char *argv[]) {
     sstream.clear();
     while(sstream >> currStr) {
         list.deleteItem(std::stoi(currStr));
+    }
+    // Then print all the current keys to command line in one line using printAll()
+    list.printAll(list.getHead());
+    std::cout << "\n";
+
+    // putItem () the numbers in the third line of the data file 
+    // to the corresponding location in the list. For example, 
+    // 1@0 means adding number 1 at position 0 of the list
+    std::getline(fin, currLine);
+    sstream.str(currLine);
+    sstream.clear();
+    while(sstream >> currStr) {
+        const size_t at = currStr.find('@');
+        ItemType key;
+
+        try {
+            key = ItemType(std::stoi(currStr.substr(0, at)));
+        } catch(const std::invalid_argument& ia) {
+            key = ItemType();
+        }
+
+        try {
+            list.putItem(key, std::stoi(currStr.substr(at + 1)));
+        } catch(const std::invalid_argument& ia) {
+            list.putItem(key);
+        }
     }
     // Then print all the current keys to command line in one line using printAll()
     list.printAll(list.getHead());
