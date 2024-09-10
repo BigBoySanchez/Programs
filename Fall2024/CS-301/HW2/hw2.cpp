@@ -4,6 +4,8 @@
 
 #include "./hw2.h"
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 ItemType::ItemType(int number) {
     value = number;
@@ -18,7 +20,9 @@ UnsortedType::UnsortedType() {
 }
 
 UnsortedType::~UnsortedType() {
-    // WIP
+    while(head) {
+        deleteItem(head->info.getValue());
+    }
 }
 
 void UnsortedType::putItem(ItemType toAdd) {
@@ -72,5 +76,51 @@ void UnsortedType::printAll(NodeType *head) const {
     while(head) {
         std::cout << " " << head->info.getValue();
         if(head->next) std::cout << ",";
+
+        head = head->next;
     }
+}
+
+NodeType* UnsortedType::getHead() const {
+    return head;
+}
+
+int main(int argc, char *argv[]) {
+    // WIP declarations
+    std::ifstream fin(argv[1]);
+    std::stringstream sstream;
+    std::string currLine = "";
+    std::string currStr = "";
+
+    // Create an empty unsorted list by yourself
+    UnsortedType list;
+    
+    // just in case...
+    if(!fin.is_open()) 
+        throw std::runtime_error("ERROR: Could not open file.\n");
+
+    // Add the numbers from the first line to the list using putItem() function
+    std::getline(fin, currLine);
+    sstream.str(currLine);
+    while(sstream >> currStr) {
+        list.putItem(ItemType(std::stoi(currStr)));
+    }
+    // Then print all the current keys to command line in one line using printAll()
+    list.printAll(list.getHead());
+    std::cout << "\n";
+
+    // Delete the numbers given by the second line in the list by using deleteItem() function
+    std::getline(fin, currLine);
+    sstream.str(currLine);
+    sstream.clear();
+    while(sstream >> currStr) {
+        list.deleteItem(std::stoi(currStr));
+    }
+    // Then print all the current keys to command line in one line using printAll()
+    list.printAll(list.getHead());
+    std::cout << "\n";
+
+    fin.close();
+    
+    return 0;
 }

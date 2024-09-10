@@ -18,7 +18,8 @@ public:
     void putItem(ItemType toAdd);                   // put toAdd at the end of list
     void putItem(ItemType toAdd, int position);     // put toAdd at position. does nothing if position invalid
     void deleteItem(int key);                       // delete first item in list with key
-    void printAll(NodeType *head) const;            // print list w/ format: 
+    void printAll(NodeType *head) const;            // print list w/ format: WIP
+    NodeType *getHead() const;
 private:
     NodeType *head;
 };
