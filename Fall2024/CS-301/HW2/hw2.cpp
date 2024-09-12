@@ -43,7 +43,7 @@ void UnsortedType::putItem(ItemType toAdd) {
 
 void UnsortedType::putItem(ItemType toAdd, int position) {
     if(position == 0) {
-        head = new NodeType{toAdd, head};   // WIP errm... what the sigma
+        head = new NodeType{toAdd, head};
         return;
     }
     
@@ -93,7 +93,6 @@ NodeType* UnsortedType::getHead() const {
 }
 
 int main(int argc, char *argv[]) {
-    // WIP declarations
     if(argc < 2) throw std::runtime_error("ERROR: No file given.\n");
     std::ifstream fin(argv[1]);
     std::stringstream sstream;
