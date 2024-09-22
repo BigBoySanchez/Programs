@@ -37,7 +37,9 @@ class SortedList {
 public:
     SortedList(size_t size = 0);
     void putItem(ItemType toPut);
-    void deleteItem(ItemType toDelete);
+
+    // does nothing if toDelete isn't in list
+    void deleteItem(const ItemType& toDelete);
     ItemType getItem(const ItemType& toGet, bool& found) const;
     void printAll() const;
 
@@ -45,10 +47,10 @@ public:
     // int < 0 if this < other
     // 0 if this == other
     int compareTo(const ItemType& curr, const ItemType& other) const;
+    bool isFull() const;
 
 private:
     ItemType *arr;
+    size_t capacity;
     size_t length;
-
-    bool isFull() const;
 };
