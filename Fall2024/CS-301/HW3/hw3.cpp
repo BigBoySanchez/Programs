@@ -104,16 +104,15 @@ void SortedList::putItem(ItemType toPut) {
     if(isFull()) throw std::length_error("Too many cards.\n");
     
     while(curr > 0) {
-        arr[curr] = arr[curr - 1];
-
-        if(compareTo(arr[curr], toPut) <= 0) {
+        if(compareTo(arr[curr - 1], toPut) <= 0) {
             arr[curr] = toPut;
             break;
         }
 
+        arr[curr] = arr[curr - 1];
         curr--;
     }
-    if(length == 0) arr[0] = toPut;
+    if(curr == 0) arr[0] = toPut;
 
     length++;
 }
@@ -122,7 +121,7 @@ void SortedList::deleteItem(const ItemType& toDelete) {
     int l = 0, r = length - 1, m;
 
     // find toDelete in list
-    while(l < r) {
+    while(l <= r) {
         m = l + ((r - l) / 2);
         
         if(compareTo(arr[m], toDelete) > 0) {
@@ -151,7 +150,7 @@ ItemType SortedList::getItem(const ItemType& toGet, bool& found) const {
     found = false;
     if(length == 0) return ItemType();
 
-    while(l < r) {
+    while(l <= r) {
         m = l + ((r - l) / 2);
 
         if(compareTo(arr[m], toGet) > 0) {
@@ -168,10 +167,8 @@ ItemType SortedList::getItem(const ItemType& toGet, bool& found) const {
 }
 
 void SortedList::printAll() const {
-    std::cout << "List:";
-
     for(int i = 0; i < length; i++) {
-        if(i != 0) std::cout << ", ";
+        if(i != 0) std::cout << ",";
         std::cout << arr[i].getInfo().getInfo();
     }
 }
@@ -184,9 +181,14 @@ bool SortedList::isFull() const {
     return length >= capacity;
 }
 
+size_t SortedList::size() const {
+    return length;
+}
+
 int main() {
     std::ifstream fin("./HW3DataFile.txt");
     std::string currLine;
+    int lineLoc;
 
     if(!fin.is_open()) throw std::runtime_error("Could not open data file.\n");
 
@@ -198,10 +200,106 @@ int main() {
     if(currLine.back() == '\r') currLine.pop_back();
 
     // then  put  them  one  by  one into  the  list  by  implementing  and  using  putItem().
-    for(int i = 0; !deck.isFull() && i < currLine.size(); i++) {
+    lineLoc = 0;
+    while(!deck.isFull()) {
         bool found;
         ItemType toAdd;
+        std::string currStr = "";
+
+        while(lineLoc < currLine.size() && isalnum(currLine[lineLoc])) {
+            currStr += currLine[lineLoc];
+            lineLoc++;
+        }
+        // ignore separators
+        while(lineLoc < currLine.size() && !isalnum(currLine[lineLoc])) lineLoc++;
+        if(currStr.empty()) break;
+        
+        toAdd = ItemType(Card(currStr));
+        deck.getItem(toAdd, found);
+        if(found) continue;
+
+        deck.putItem(toAdd);
     }
+
+    // Then print out all the cards in the list in one line separating by commas.
+    deck.printAll();
+    std::cout << "\n";
+
+    // Then delete the cards indicated in the second line of the file by using deleteItem()
+    std::getline(fin, currLine);
+    if(currLine.back() == '\r') currLine.pop_back();
+
+    lineLoc = 0;
+    while(lineLoc < currLine.size()) {
+        std::string currStr = "";
+
+        while(lineLoc < currLine.size() && isalnum(currLine[lineLoc])) {
+            currStr += currLine[lineLoc];
+            lineLoc++;
+        }
+        // ignore separators
+        while(lineLoc < currLine.size() && !isalnum(currLine[lineLoc])) lineLoc++;
+
+        deck.deleteItem(ItemType(Card(currStr)));
+    }
+
+    // Then print out all the cards in the list in one line separating by commas.
+    deck.printAll();
+    std::cout << "\n";
+
+    // Then put the items in the third line in to the list. Must use putItem()
+    std::getline(fin, currLine);
+    if(currLine.back() == '\r') currLine.pop_back();
+
+    lineLoc = 0;
+    while(!deck.isFull()) {
+        bool found;
+        ItemType toAdd;
+        std::string currStr = "";
+
+        while(lineLoc < currLine.size() && isalnum(currLine[lineLoc])) {
+            currStr += currLine[lineLoc];
+            lineLoc++;
+        }
+        // ignore separators
+        while(lineLoc < currLine.size() && !isalnum(currLine[lineLoc])) lineLoc++;
+        if(currStr.empty()) break;
+        
+        toAdd = ItemType(Card(currStr));
+        deck.putItem(toAdd);
+    }
+
+    // Then print out all the cards in the list in one line separating by commas.
+    deck.printAll();
+    std::cout << "\n";
+
+    // Search the current list for the elements in the list.
+    std::getline(fin, currLine);
+    if(currLine.back() == '\r') currLine.pop_back();
+
+    lineLoc = 0;
+    while(lineLoc < currLine.size()) {
+        std::string currStr = "";
+        bool found;
+
+        while(lineLoc < currLine.size() && isalnum(currLine[lineLoc])) {
+            currStr += currLine[lineLoc];
+            lineLoc++;
+        }
+        // ignore separators
+        while(lineLoc < currLine.size() && !isalnum(currLine[lineLoc])) lineLoc++;
+
+        // Then output the result as the follows.  Yes or No 
+        // depends on whether the card exists in the current list.
+        deck.getItem(ItemType(Card(currStr)), found);
+        
+        std::cout << currStr << " ";
+        if(found) std::cout << "YES";
+        else std::cout << "NO";
+        if(lineLoc < currLine.size()) std::cout << ", ";
+    }
+    std::cout << "\n";
+
 
     fin.close();
 

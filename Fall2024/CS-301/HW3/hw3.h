@@ -48,6 +48,7 @@ public:
     // 0 if this == other
     int compareTo(const ItemType& curr, const ItemType& other) const;
     bool isFull() const;
+    size_t size() const;
 
 private:
     ItemType *arr;
