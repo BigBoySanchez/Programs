@@ -1,3 +1,5 @@
+# Problem 1
+
 from ProductionTable import *
 import random
 
@@ -58,16 +60,19 @@ def main() -> None:
 
 main()
 
-# int main 
-# {
-#     while(00)
-#     if(J9)
-#     if(_L357)
-#     if(g)
-#     {
-#         u = 6;
-#     }
-#     else
-#     int dD = Z14;
-#     return 0;
-# }
+"""
+Problem 2
+
+The largest error with these outputs that I've noticed is that they often use 
+or assign values to variables that haven't been declared. To fix this, I
+would use a hash set with the key = the variable name and value = the address of
+the variable. If the returned value is 0, then the variable hasn't been declared.
+I'd then go line by line in the program looking for <id>'s and add them to the
+table when they're declared
+
+Another error could be type mismatches. For example, an int being assigned 17/38.
+To solve this, values in the variable table will also contain the type of the
+variable, as a string or an enum. Then the values can be adjusted to match the
+type of the variable they're being assigned to.
+
+"""
