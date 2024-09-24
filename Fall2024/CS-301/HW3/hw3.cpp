@@ -118,7 +118,8 @@ void SortedList::putItem(ItemType toPut) {
 }
 
 void SortedList::deleteItem(const ItemType& toDelete) {
-    int l = 0, r = length - 1, m;
+    int l = 0, r = length - 1;
+    size_t m;
 
     // find toDelete in list
     while(l <= r) {
@@ -167,7 +168,7 @@ ItemType SortedList::getItem(const ItemType& toGet, bool& found) const {
 }
 
 void SortedList::printAll() const {
-    for(int i = 0; i < length; i++) {
+    for(size_t i = 0; i < length; i++) {
         if(i != 0) std::cout << ",";
         std::cout << arr[i].getInfo().getInfo();
     }
@@ -188,7 +189,7 @@ size_t SortedList::size() const {
 int main() {
     std::ifstream fin("./HW3DataFile.txt");
     std::string currLine;
-    int lineLoc;
+    size_t lineLoc;
 
     if(!fin.is_open()) throw std::runtime_error("Could not open data file.\n");
 
@@ -253,7 +254,6 @@ int main() {
 
     lineLoc = 0;
     while(!deck.isFull()) {
-        bool found;
         ItemType toAdd;
         std::string currStr = "";
 
@@ -299,7 +299,6 @@ int main() {
         if(lineLoc < currLine.size()) std::cout << ", ";
     }
     std::cout << "\n";
-
 
     fin.close();
 

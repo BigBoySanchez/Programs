@@ -1,12 +1,9 @@
 from ProductionTable import *
-import datetime
 import random
 
 def clean(program) -> str:
-    indent_loc = program.find("{\n")
     tab_size = 4
     indent = 0
-    temp_size = -1
 
     lines = program.split('\n')
     n_lines = len(lines)
@@ -27,10 +24,8 @@ def clean(program) -> str:
 
 
 def main() -> None:
-    # WIP
     random.seed(None)
 
-    indent_size = 4
     table = make_table()
     program = table["prog"].expand()
 
@@ -52,7 +47,11 @@ def main() -> None:
     program = dfs(program)
     program = clean(program)
     
-    print(program)
+    # print(program)
+
+    out_file = open("output.txt", "w")
+    out_file.write(program)
+    out_file.close()
 
 
 

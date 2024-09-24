@@ -57,18 +57,18 @@ def make_table() -> dict:
     curr = Production("if_stat")
 
     curr.add_rhs([1, 1, 1, 1, 1, 1], [
-               "if(<exp>)\n<stat>"
+               "if(<exp>)\n{\n<stat>\n}"
              , "if(<exp>)\n<cmpd_stat>"
-             , "if(<exp>)\n<stat>\nelse\n<stat>"
-             , "if(<exp>)\n<cmpd_stat>\nelse\n<stat>"
-             , "if(<exp>)\n<stat>\nelse\n<cmpd_stat>"
+             , "if(<exp>)\n{\n<stat>\n}\nelse\n{\n<stat>\n}"
+             , "if(<exp>)\n<cmpd_stat>\nelse\n{\n<stat>\n}"
+             , "if(<exp>)\n{\n<stat>\n}\nelse\n<cmpd_stat>"
              , "if(<exp>)\n<cmpd_stat>\nelse\n<cmpd_stat>"])
     ret["if_stat"] = curr
 
     curr = Production("iter_stat")
 
     curr.add_rhs([1, 1], [
-                  "while(<exp>)\n<stat>"
+                  "while(<exp>)\n{\n<stat>\n}"
                 , "while(<exp>)\n<cmpd_stat>"])
     ret["iter_stat"] = curr
 
