@@ -186,11 +186,14 @@ size_t SortedList::size() const {
     return length;
 }
 
-int main() {
-    std::ifstream fin("./HW3DataFile.txt");
+int main(int argc, char *argv[]) {
+    std::ifstream fin;
     std::string currLine;
     size_t lineLoc;
 
+    if(argc < 2) throw std::runtime_error("No file given.\n");
+
+    fin.open(argv[1]);
     if(!fin.is_open()) throw std::runtime_error("Could not open data file.\n");
 
     //Create a list by dynamic allocated array and set the size to 20
