@@ -1,1 +1,13 @@
-gooner time
+begin
+    if (guy - 3 == 0)
+    then
+        if (1 == 1) 
+        then
+            guy = 1.1;
+            peter = 1.234 - 17.38;
+            lois = [2, 2, 2]
+        else
+            guy = 1738;
+            peter = lois;
+            brian = 0
+end
