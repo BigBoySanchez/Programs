@@ -42,18 +42,19 @@ def main() -> None:
                 break
             prod_name = curr_str[prod_start + 1 : curr_str.find('>')]
             
-            curr_str = curr_str.replace("<" + prod_name + ">", dfs(table[prod_name].expand()), 1)
+            curr_str = curr_str.replace("<" + prod_name + ">", 
+					dfs(table[prod_name].expand()), 1)
 
         return curr_str
 
     program = dfs(program)
     program = clean(program)
     
-    # print(program)
+    print(program)
 
-    out_file = open("output.txt", "w")
-    out_file.write(program)
-    out_file.close()
+    # out_file = open("output.txt", "w")
+    # out_file.write(program)
+    # out_file.close()
 
 
 
