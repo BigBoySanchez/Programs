@@ -1,20 +1,7 @@
-.vscode/tasks.json
-.vscode/c_cpp_properties.json
-.vscode/launch.json
-CPP-Stuff/CS20/HomeMidterm/vc140.pdb
-CPP-Stuff/CS20/HomeMidterm/q2.exe
-.vscode/settings.json
-CPP-Stuff/CS20/HomeMidterm/q3.exe
-CPP-Stuff/CS20/Dictionary/.DS_Store
-CPP-Stuff/CS20/.DS_Store
-CPP-Stuff/.DS_Store
-.DS_Store
-CPP-Stuff/CS20/Dictionary/Part1/.vscode/c_cpp_properties.json
-CPP-Stuff/CS20/Dictionary/.vscode/c_cpp_properties.json
-CPP-Stuff/CS20/Dictionary/.vscode/tasks.json
-CPP-Stuff/CS20/Dictionary/.vscode/launch.json
-CPP-Stuff/CS20/Dictionary/.vscode/settings.json
+**/.vscode/
+**/__pycache__/
+**/.DS_Store
 
+CPP-Stuff/CS20/HomeMidterm/
 word-hunt-solver/a.exe
-Fall2024/CS-301/.vscode/
-__pycache__/
+Fall2024/CS-311/HW3/t2.txt
