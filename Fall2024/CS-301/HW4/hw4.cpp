@@ -27,7 +27,6 @@ DoubleList::~DoubleList() {
         NodeType *temp = head;
         head = head->next;
 
-        cout << temp->info.getInfo() << "|\n";
         delete temp;
     }
 }
@@ -53,21 +52,38 @@ void DoubleList::putItem(const ItemType& toPut) {
 }
 
 
-int main(int argc, char *argv[]) {
+int main(int argc, char **argv) {
     // Create a doubly linked list by reading the 26 letters from Letters.txt.
     DoubleList dl;
-    ifstream inFile(argv[2]);
+    ifstream letterFile(argv[2]);
+    if(!letterFile.is_open()) throw runtime_error("Could not open Letters.\n");
 
-    // WIP: sux
     string currLine;
-    while(!inFile.eof()) {
-        getline(inFile, currLine);
+    while(!letterFile.eof()) {
+        getline(letterFile, currLine);
 
         dl.putItem(ItemType(currLine[0]));
     }
+    letterFile.close();
 
+    // The initial position is at the beginning of the list which is ‘A’.
+    NodeType *loc = dl.begin();
 
+    // You need to output all letters indicated in sequence.txt
+    ifstream seqFile(argv[1]);
+    if(!seqFile.is_open()) throw runtime_error("Could not open Sequence.\n");
+    string curr;
 
+    // look at numbers in sequence individually
+    while(!seqFile.eof()) {
+        getline(seqFile, curr, ',');
+
+        // move loc by relative position
+        loc = loc->getAt(stoi(curr));
+        cout << loc->info.getInfo();
+    }
+    cout << "\n";
+    seqFile.close();
     
     return 0;
 }
