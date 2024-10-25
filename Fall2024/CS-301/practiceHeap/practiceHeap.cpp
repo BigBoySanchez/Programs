@@ -18,13 +18,8 @@ public:
     void push(const T toPush);
     void pop();
 
-    friend std::ostream& operator<<(std::ostream& os, const PracticeHeap<T, Compare>& toPrint) {
-        for(const T& curr : toPrint.container) {
-            os << curr << ", ";
-        }
-    
-        return os;
-    }
+    template < typename TT, typename CCompare >
+    friend std::ostream& operator<<(std::ostream& os, const PracticeHeap<TT, CCompare>& toPrint);
 
 private:
     std::vector<T> container;
@@ -34,9 +29,6 @@ private:
     void reheapDown();
 };
 
-//#include "practiceHeap.cpp"
-
-
 template <typename T, typename Compare>
 PracticeHeap<T, Compare>::PracticeHeap() {
     compFunc = Compare();
@@ -44,8 +36,9 @@ PracticeHeap<T, Compare>::PracticeHeap() {
 
 template <typename T, typename Compare>
 PracticeHeap<T, Compare>::PracticeHeap(const std::vector<T>& init) {
-    container = init;
     compFunc = Compare();
+
+    for(const T& curr : init) push(curr);
 }
 
 template <typename T, typename Compare>
@@ -65,7 +58,7 @@ bool PracticeHeap<T, Compare>::empty() const {
 
 template <typename T, typename Compare>
 void PracticeHeap<T, Compare>::push(const T toPush) {
-    container.push_back();
+    container.push_back(toPush);
     reheapUp();
 }
 
@@ -76,20 +69,20 @@ void PracticeHeap<T, Compare>::pop() {
     reheapDown();
 }
 
-// template <typename T, typename Compare>
-// std::ostream& operator<<(std::ostream& os, const PracticeHeap<T, Compare>& toPrint) {
-//     for(const T& curr : toPrint.container) {
-//         os << curr << ", ";
-//     }
+template <typename T, typename Compare>
+std::ostream& operator<<(std::ostream& os, const PracticeHeap<T, Compare>& toPrint) {
+    for(const T& curr : toPrint.container) {
+        os << curr << ", ";
+    }
     
-//     return os;
-// }
+    return os;
+}
 
 template <typename T, typename Compare>
 void PracticeHeap<T, Compare>::reheapUp() {
     size_t curr = container.size() - 1, parent = (curr - 1) / 2;
 
-    while(curr > 0 && compFunc(curr, parent)) {
+    while(curr > 0 && compFunc(container[curr], container[parent])) {
         std::swap(container[curr], container[parent]);
         
         // move up the heap
@@ -103,6 +96,8 @@ void PracticeHeap<T, Compare>::reheapDown() {
     size_t curr = 0;
 
     while(curr < container.size()) {
+        //std::cout << curr << "\n";
+        
         size_t left = (curr * 2) + 1;
         size_t right = (curr * 2) + 2;
         if(left >= container.size()) left = curr;
@@ -110,11 +105,21 @@ void PracticeHeap<T, Compare>::reheapDown() {
 
         size_t best = (compFunc(container[left], container[right]))? left : right;
 
-        // nothing needs to be changed
-        if(compFunc(container[curr], container[best])) break; 
-    
-        std::swap(container[curr], container[best]);
-        curr = best;
+        // need to move curr down
+        if(compFunc(container[best], container[curr])) {
+            std::swap(container[curr], container[best]);
+            curr = best;
+        } else { // nothing to change
+            break;
+        }
     }
 }
+
 #endif
+
+/*
+12, 
+17, 69,
+20, 1000, 87, 420, 
+10000, 300
+*/
