@@ -126,3 +126,63 @@ CRITIQUE:
 can hold many different types and uses indexing, like lists, but every part of
 it is immutable. Similar functionality on C/C++
 """
+
+# slices
+
+lis = [1, 2, 3, 4, 5, 6]
+print(lis[slice(4)])
+print(lis[1:5:2])
+
+"""
+CRITIQUE:
+
+cool, but nothing revolutionary. C/C++ don't have this naturally, you have to program
+it, but it's not hard anyway. Never found a good use case for this as it's easy to
+code it by hand.
+"""
+
+# index range checking
+
+irc = lis
+try:
+    print(irc[9])
+except IndexError:
+    print("safe, but throws exception.")
+
+"""
+CRITIQUE:
+
+Should be standard. C/C++ don't do this to since normal arrays don't have a size
+to check, but it's better to make sure the right memory region is being accessed.
+Also negative indexes are an AMAZING feature, something C/C++ don't do for
+similar reasons.
+"""
+
+# dictionaries
+
+dic = { 'a':'alpha', 'b':'bravo', 'c':'charlie', 2: 'two' }
+dic['d'] = 4378947932847
+
+print(dic['a'])
+print(dic[2])
+
+
+"""
+CRITIQUE:
+
+Follows the theme of dynamic typing. In C/C++ all key and value pairs need to
+have the same type. Here, they can be any type.
+"""
+
+# if statement
+
+if 1 == 1:
+    print("yep")
+else:
+    print("nah bro")
+
+"""
+CRITIQUE:
+
+Nothing special apart from the lack of braces. No changes compared to C/C++.
+"""
