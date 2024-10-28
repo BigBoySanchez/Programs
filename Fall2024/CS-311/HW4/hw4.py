@@ -186,3 +186,166 @@ CRITIQUE:
 
 Nothing special apart from the lack of braces. No changes compared to C/C++.
 """
+
+# switch statement
+
+"""
+CRITIQUE:
+
+Not here! Can be remedied by using dicts, or pattern matching, but nothing that
+embodies the power of switches in C/C++.
+"""
+
+# for loop
+
+strs = ['my', 'name', 'is', 'errr...', 'i forgot']
+for str in strs:
+    print(str)
+
+"""
+CRITIQUE:
+
+Amazing! Different syntax from C/C++ but more human and more powerful. Here,
+I use it to iterate over a list, but you can still iterate with indexes using
+range. 
+"""
+
+# while loop
+
+i = 1
+nums = []
+while i <= 8:
+    nums.append(i)
+    i += 1
+print(nums)
+
+"""
+CRITIQUE:
+
+Just like while loops in C/C++.
+"""
+
+# indentation to denote code blocks
+
+if 1 == 1:
+    if 2 == 1:
+        print("errm...")
+    else:
+        print("nah")
+
+"""
+CRITIQUE:
+
+Not like C/C++ which ignore whitespace, which is a good thing since beginners don't
+have to think about style and solves the "dangling else" problem.
+"""
+
+# type binding
+
+frigginidiot = 0
+frigginidiot = 'peter'
+print(frigginidiot)
+
+"""
+CRITIQUE:
+
+Dynamic, not static like C/C++. Could be unsafe, but makes everything easy to use.
+"""
+
+# type checking
+
+frigginidiot = 0
+print(type(frigginidiot))
+frigginidiot = 'peter'
+print(type(frigginidiot))
+
+"""
+CRITIQUE:
+
+Good feature not found in C/C++. Solves some issues that come from dynamic typing.
+"""
+
+# functions
+
+def almost_done(buddy = "guy", guy = "fwend"):
+    b_len = len(buddy)
+    g_len = len(guy)
+    
+    for i in range(0, b_len - g_len):
+        if buddy[i : i + g_len] == guy:
+            return i
+    return "I'M CRAZY I'M CRAZY I'M CRAZY I'M CRAZY I'M CRAZY I'M CRAZY I'M CRAZY I'M CRAZY I'M CRAZY I'M CRAZY I'M CRAZY I'M CRAZY I'M CRAZY I'M CRAZY"
+
+print(almost_done("fhuiqhfiuwhfwendhfgieohwh"))
+print(almost_done(guy="buddy", buddy="diddy"))
+
+"""
+CRITIQUE:
+
+Better than C/C++ because they can return anything and you can give arguments
+directly, without knowing the order of the parameters
+"""
+
+# one other feature - importing
+
+from string import punctuation
+
+print(punctuation)
+
+
+"""
+CRITIQUE:
+
+Similar to includes from C/C++, but files choose what they share to others and
+when a user includes, they can get specific features if they don't need everything.
+"""
+
+"""
+OUTPUT:
+
+41
+False
+True
+True
+True
+False
+all good
+<class 'int'>
+<class 'int'>
+<class 'float'>
+<class 'complex'>
+Hello Worldenheimer
+Hello Worldenheimer fjiewj
+can't change string
+[1, 'ni hao', 2, 3, [1, 2, 3]]
+(1, 2, 'wow')
+can't change tuple
+[1, 2, 3, 4]
+[2, 4]
+safe, but throws exception.
+alpha
+two
+yep
+my
+name
+is
+errr...
+i forgot
+[1, 2, 3, 4, 5, 6, 7, 8]
+nah
+peter
+<class 'int'>
+<class 'str'>
+11
+I'M CRAZY I'M CRAZY I'M CRAZY I'M CRAZY I'M CRAZY I'M CRAZY I'M CRAZY I'M CRAZY I'M CRAZY I'M CRAZY I'M CRAZY I'M CRAZY I'M CRAZY I'M CRAZY
+!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
+"""
+
+"""
+OVERALL CRITIQUE:
+
+Python is a unique language. It is interpreted, dynamically typed, and can be used on virtually any system. It has chosen to sacrifice speed
+in favor of code safety, which is absolutely necessary due to the unlimited power it grants to the programmer. Its syntax is so clean that
+it has moments where it mimics human language. Although it removes some key features of low-level languages like C/C++, it makes up for
+these losses with sheer power and overwhelming support from its army of supporters. Good language.
+"""
