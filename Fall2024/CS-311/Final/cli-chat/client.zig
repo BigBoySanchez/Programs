@@ -28,7 +28,7 @@ pub fn main() !void {
     var stdIn = std.io.getStdIn();
 
     var buf: [1024:0]u8 = undefined;
-    const quitStr = "/q";
+    const quitStr = "-q";
 
     while (true) {
         var inputLen: usize = 0;
