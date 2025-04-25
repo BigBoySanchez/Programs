@@ -3,29 +3,23 @@ import java.io.Serializable;
 public class Message implements Serializable {
     private static final long serialVersionUID = 4395563451540715277L;
     
-	private String type;
-	private String status;
+	private MessageType type;
+	private MessageStatus status;
 	private String text;
 
     public Message() {
-        this.type = "undefined";
-        this.status = "undefined";
-        this.text = "undefined";
+        this.type = MessageType.UNDEFINED;
+        this.status = MessageStatus.UNDEFINED;
+        this.text = "";
     }
 
-    public Message(String type, String status, String text) {
-    	if(type.equals("login") || type.equals("logout") || type.equals("text")) {
-            this.type = type;
-        } else {
-        	this.type = "undefined";
-        }
-    	
+    public Message(MessageType type, MessageStatus status, String text) {
+    	this.type = type;
         this.status = status;
         this.text = text;
     }
 
-	public void setStatus(String status) {
-        status.toLowerCase();
+	public void setStatus(MessageStatus status) {
         this.status = status;
     }
 
@@ -33,11 +27,11 @@ public class Message implements Serializable {
         this.text = text;
     }
 
-    public String getType() {
+    public MessageType getType() {
         return this.type;
     }
 
-    public String getStatus() {
+    public MessageStatus getStatus() {
         return this.status;
     }
 

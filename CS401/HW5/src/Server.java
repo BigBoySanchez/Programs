@@ -44,12 +44,12 @@ class ClientThread implements Runnable {
 		try {
 			// look for login message
 			Message m = (Message) ois.readObject();
-			if(!m.getType().equals("login")) {
+			if(m.getType() != MessageType.LOGIN) {
 				throw new Exception("Expected login, found: " + m.getType());
 			}
 			
 			// send login success message
-			m.setStatus("success");
+			m.setStatus(MessageStatus.SUCCESS);
 			oos.writeObject(m);
 			
 			// start handling text and logouts
@@ -64,15 +64,15 @@ class ClientThread implements Runnable {
 		while(true) {
 			Message m = (Message) this.ois.readObject();
 			
-			if(m.getType().equals("text")) {
+			if(m.getType() == MessageType.TEXT) {
 				// capitalize and send back
 				// no status change
 				m.setText(m.getText().toUpperCase());
 				oos.writeObject(m);
-			} else if(m.getType().equals("logout")) {
+			} else if(m.getType() == MessageType.LOGOUT) {
 				// send message back with "success"
 				// terminate connection
-				m.setStatus("success");
+				m.setStatus(MessageStatus.SUCCESS);
 				oos.writeObject(m);
 				break;
 			} else {

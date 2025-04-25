@@ -8,10 +8,10 @@ public class Client {
 		try (// get user input
 		Scanner sc = new Scanner(System.in)) {
 			System.out.print("Enter the host address to connect to: ");
-			String host = "localhost"; // TODO
+			String host = sc.next();
 			
 			System.out.print("Enter the port number to connect to: ");
-			int port = 8080; // TODO
+			int port = sc.nextInt();
 			
 			try (// Connect to the ServerSocket at host:port
 			Socket socket = new Socket(host, port)) {
@@ -22,10 +22,13 @@ public class Client {
 				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 				
 				// On connection, pass a ‘login message’ to the server.
-				oos.writeObject(new Message("login", "undefined", "undefined"));
+				oos.writeObject(new Message(
+						MessageType.LOGIN, 
+						MessageStatus.UNDEFINED, 
+						""));
 				
 				Message loginReply = (Message) ois.readObject();
-				if(!loginReply.getStatus().equals("success")) {
+				if(loginReply.getStatus() != MessageStatus.SUCCESS) {
 					throw new Exception("Client login, found: " + loginReply.getStatus());
 				}
 				System.out.println("Logged in.");
@@ -36,16 +39,22 @@ public class Client {
 					
 					if(input.equals("logout")) {
 						// send logout message
-						oos.writeObject(new Message("logout", "undefined", "undefined"));
+						oos.writeObject(new Message(
+								MessageType.LOGOUT, 
+								MessageStatus.UNDEFINED, 
+								""));
 						Message logoutReply = (Message) ois.readObject();
-						if(!logoutReply.getStatus().equals("success")) {
+						if(logoutReply.getStatus() != MessageStatus.SUCCESS) {
 							throw new Exception("Client logout, found: " + logoutReply.getStatus());
 						}
 						
 						break;
 					}
 					
-					oos.writeObject(new Message("text", "undefined", input));
+					oos.writeObject(new Message(
+							MessageType.TEXT, 
+							MessageStatus.UNDEFINED, 
+							input));
 					Message textReply = (Message) ois.readObject();
 					System.out.println(textReply.getText());
 				}
